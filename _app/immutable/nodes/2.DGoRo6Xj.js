@@ -1,0 +1,1 @@
+import{f as a,a as e}from"../chunks/DZT8HU3I.js";import"../chunks/bUpB0jF6.js";import{n}from"../chunks/BYqBJ6lq.js";var r=a('<h1>Welcome to SvelteKit</h1> <p>Visit Im yash <span class="bg-red-500 text-2xl font-bold">Yash</span> to read the documentation</p>',1);function i(t){var o=r();n(2),e(t,o)}export{i as component};

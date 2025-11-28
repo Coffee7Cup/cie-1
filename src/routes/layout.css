@@ -1,3 +1,31 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
+
+.wavy-circle {
+  --s: 500px; /* adjust to control the size */
+
+  width: var(--s); 
+  aspect-ratio: 1;
+  --g:/calc(var(--s)*0.149) calc(var(--s)*0.149) radial-gradient(50% 50%,#000 99%,#0000 101%) no-repeat;
+  mask: calc(50% + var(--s)*0.401) calc(50% + var(--s)*0) var(--g),calc(50% + var(--s)*0.347) calc(50% + var(--s)*0.2) var(--g),calc(50% + var(--s)*0.2) calc(50% + var(--s)*0.347) var(--g),calc(50% + var(--s)*0) calc(50% + var(--s)*0.401) var(--g),calc(50% + var(--s)*-0.2) calc(50% + var(--s)*0.347) var(--g),calc(50% + var(--s)*-0.347) calc(50% + var(--s)*0.2) var(--g),calc(50% + var(--s)*-0.401) calc(50% + var(--s)*0) var(--g),calc(50% + var(--s)*-0.347) calc(50% + var(--s)*-0.2) var(--g),calc(50% + var(--s)*-0.2) calc(50% + var(--s)*-0.347) var(--g),calc(50% + var(--s)*0) calc(50% + var(--s)*-0.401) var(--g),calc(50% + var(--s)*0.2) calc(50% + var(--s)*-0.347) var(--g),calc(50% + var(--s)*0.347) calc(50% + var(--s)*-0.2) var(--g),radial-gradient(calc(var(--s)*0.443),#000 99%,#0000 101%) subtract,calc(50% + var(--s)*0.477) calc(50% + var(--s)*0.128) var(--g),calc(50% + var(--s)*0.349) calc(50% + var(--s)*0.349) var(--g),calc(50% + var(--s)*0.128) calc(50% + var(--s)*0.477) var(--g),calc(50% + var(--s)*-0.128) calc(50% + var(--s)*0.477) var(--g),calc(50% + var(--s)*-0.349) calc(50% + var(--s)*0.349) var(--g),calc(50% + var(--s)*-0.477) calc(50% + var(--s)*0.128) var(--g),calc(50% + var(--s)*-0.477) calc(50% + var(--s)*-0.128) var(--g),calc(50% + var(--s)*-0.349) calc(50% + var(--s)*-0.349) var(--g),calc(50% + var(--s)*-0.128) calc(50% + var(--s)*-0.477) var(--g),calc(50% + var(--s)*0.128) calc(50% + var(--s)*-0.477) var(--g),calc(50% + var(--s)*0.349) calc(50% + var(--s)*-0.349) var(--g),calc(50% + var(--s)*0.477) calc(50% + var(--s)*-0.128) var(--g);
+}
+
+.wavy-box {
+  --s: 20px;  /* control the size of the wave */
+  --w: 360px; /* preferred  width */
+  
+  width: round(var(--w),4*var(--s)); 
+  aspect-ratio: 1;
+  padding: var(--s);
+  border: var(--s) solid #0000;
+  box-sizing: border-box;
+  background: #CD8C52;
+  border-radius: calc(3.5*var(--s)); /* for the image */
+  mask: 
+    radial-gradient(calc(sqrt(2)*var(--s)),#000 calc(100% - 1px),#0000),
+    conic-gradient(#000 0 0) content-box,
+    radial-gradient(calc(sqrt(2)*var(--s)),#0000 100%,#000 calc(100% + 1px)) 
+     var(--s) var(--s) padding-box;
+  mask-size: calc(var(--s)*4) calc(var(--s)*4);
+}

@@ -11,7 +11,7 @@
 		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint .",
 		"predeploy": "npm run build",
-  		"deploy": "gh-pages -d build -t"
+		"deploy": "gh-pages -d build -t"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.4.0",
@@ -38,6 +38,7 @@
 		"vite-plugin-devtools-json": "^1.0.0"
 	},
 	"dependencies": {
+		"@svelte-parts/icons": "^0.0.24",
 		"gsap": "^3.13.0",
 		"three": "^0.181.2"
 	}

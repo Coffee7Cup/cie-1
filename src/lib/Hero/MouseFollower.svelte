@@ -2,6 +2,7 @@
 	import {data} from '$lib/data.js'
 	import ForwardArrow from '@svelte-parts/icons/feather/arrow-right'
 	import {goto} from '$app/navigation'
+	import {resolve} from '$app/paths'
 
 
 	let {currentIndex = $bindable()} = $props()
@@ -46,7 +47,10 @@
 	onmouseenter={(e) => followMouse(e)}
 	onmousemove={moveFollower}
 	onmouseleave={destroyFollower}
-	onclick={() => goto(data[currentIndex - 1].route)}
+	onclick={() => {
+		goto(resolve(`${data[currentIndex - 1].route}`))
+		console.log(`${data[currentIndex - 1].name}`)
+	}}
 	class="
 				fixed top-1/2 left-1/2
 				-translate-x-1/2 -translate-y-1/2

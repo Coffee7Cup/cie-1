@@ -1,7 +1,7 @@
 <script>
 	import { data } from '$lib/data.js';
 	import Marquee from '$lib/utils/Marquee.svelte';
-	import {fly, slide} from 'svelte/transition'
+	import {fly} from 'svelte/transition'
 
 	let {currentIndex = $bindable()} = $props()
 

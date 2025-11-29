@@ -6,7 +6,7 @@ export const data = [
 		color: '#A78BFA',
 		complementaryColor: '#FAE78B',
 		description: 'We build leaders',
-		description_fr: 'Nous formons leaders',
+		description_fr: 'Empowering students to grow, lead, innovate, inspire change with vision.',
 		settings: {
 			rotateX: 0,
 			rotateY: 0,
@@ -24,7 +24,7 @@ export const data = [
 		color: '#34D399',
 		complementaryColor: '#D3346C',
 		description: 'Innovation in action',
-		description_fr: 'Innovation en action',
+		description_fr: 'Real ideas built into products that solve problems and inspire.',
 		settings: {
 			rotateX: 0,
 			rotateY: 0,
@@ -42,7 +42,7 @@ export const data = [
 		color: '#F472B6',
 		complementaryColor: '#72F4B0',
 		description: 'Create. Compete. Connect.',
-		description_fr: 'Créer. Concourir. Connecter.',
+		description_fr: 'Events where creativity thrives, skills grow, friendships form and shine.',
 		settings: {
 			rotateX: 0,
 			rotateY: 0,
@@ -60,7 +60,7 @@ export const data = [
 		color: '#60A5FA',
 		complementaryColor: '#FAB960',
 		description: 'Driven by passion',
-		description_fr: 'Guidé par passion',
+		description_fr: 'Team fueled by passion, collaboration, dedication, purpose and limitless growth.',
 		settings: {
 			rotateX: 0,
 			rotateY: 0,
@@ -78,7 +78,7 @@ export const data = [
 		color: '#F59E0B',
 		complementaryColor: '#0B5AF5',
 		description: 'Let’s collaborate today',
-		description_fr: 'Collaborons aujourd’hui',
+		description_fr: 'Reach out, connect with us, let’s collaborate and build future.',
 		settings: {
 			rotateX: 0,
 			rotateY: 0,

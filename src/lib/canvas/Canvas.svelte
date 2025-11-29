@@ -3,7 +3,6 @@
 	import * as THREE from 'three';
 	import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 	import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-	import {base} from '$app/paths'
 
 	let { settings, name, position = { x: 0, y: 0, z: 0 } } = $props();
 
@@ -63,7 +62,7 @@
 		const responsiveScale = isMobile ? settings.scale * 0.7 : settings.scale;
 
 		loader.load(
-			`${base}/assets/${name}`,
+			`/assets/${name}`,
 			(gltf) => {
 				model = gltf.scene;
 				scene.add(model);

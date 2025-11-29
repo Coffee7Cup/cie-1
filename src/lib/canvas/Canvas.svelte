@@ -11,22 +11,30 @@
 	let parent;
 	let model;
 	let spinSpeed = 0;
-	let targetSpeed = 0;
-	let baseAngle = 0;
 	let isVisible = false;
 	let exitAnimation = false;
-
-	// Lerp helper function
-	function lerp(start, end, t) {
-		return start + (end - start) * t;
-	}
+	let isMobile = false;
 
 	onMount(() => {
+		// Detect mobile
+		isMobile = window.innerWidth < 768;
+
 		const scene = new THREE.Scene();
 		scene.background = null;
 
-		const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
-		camera.position.set(4, 2, 3);
+		const camera = new THREE.PerspectiveCamera(
+			isMobile ? 85 : 75, // Wider FOV on mobile
+			1,
+			0.1,
+			1000
+		);
+
+		// Adjust camera position for mobile
+		if (isMobile) {
+			camera.position.set(5, 2.5, 4);
+		} else {
+			camera.position.set(4, 2, 3);
+		}
 		camera.lookAt(0, 0, 0);
 		scene.add(camera);
 
@@ -41,11 +49,18 @@
 		scene.add(dirLight2);
 
 		const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+		renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Limit pixel ratio for performance
 
 		const controls = new OrbitControls(camera, canvas);
 		controls.enableDamping = true;
+		controls.dampingFactor = 0.05;
+		// Disable controls on mobile for better performance
+		controls.enabled = !isMobile;
 
 		const loader = new GLTFLoader();
+
+		// Adjust scale based on screen size
+		const responsiveScale = isMobile ? settings.scale * 0.7 : settings.scale;
 
 		loader.load(
 			`${base}/assets/${name}`,
@@ -54,7 +69,7 @@
 				scene.add(model);
 
 				model.position.set(position.x, position.y, position.z);
-				model.scale.set(settings.scale, settings.scale, settings.scale);
+				model.scale.set(responsiveScale, responsiveScale, responsiveScale);
 
 				model.traverse((child) => {
 					if (child.isMesh) {
@@ -80,19 +95,35 @@
 			renderer.setSize(width, height);
 			camera.aspect = width / height;
 			camera.updateProjectionMatrix();
+
+			// Update mobile detection on resize
+			const wasMobile = isMobile;
+			isMobile = window.innerWidth < 768;
+
+			// Adjust camera and controls if device type changed
+			if (wasMobile !== isMobile) {
+				camera.fov = isMobile ? 85 : 75;
+				if (isMobile) {
+					camera.position.set(5, 2.5, 4);
+				} else {
+					camera.position.set(4, 2, 3);
+				}
+				camera.updateProjectionMatrix();
+				controls.enabled = !isMobile;
+			}
 		};
 		new ResizeObserver(resize).observe(parent);
 
-		// Physics tuned for smooth ~1.5 second animation
-		const fastSpeed = Math.PI * 3; // initial speed
-		const totalRotation = Math.PI * 2; // One full rotation
-		const deceleration = -Math.PI * 1.5; // gradual deceleration
+		// Physics tuned for smooth animation
+		const fastSpeed = Math.PI * 3;
+		const totalRotation = Math.PI * 2;
+		const deceleration = -Math.PI * 1.5;
 
 		let rotating = false;
 		let rotationLeft = totalRotation;
 
 		// Exit animation parameters
-		const exitDuration = 1.0; // seconds
+		const exitDuration = 1.0;
 		let exitProgress = 0;
 
 		const clock = new THREE.Clock();
@@ -102,7 +133,6 @@
 			(entries) => {
 				entries.forEach((entry) => {
 					if (entry.isIntersecting && !isVisible && model) {
-						// Entering screen - start entrance animation
 						isVisible = true;
 						exitAnimation = false;
 						rotating = true;
@@ -110,11 +140,10 @@
 						rotationLeft = totalRotation;
 						exitProgress = 0;
 
-						// reset scale and position
-						model.scale.set(settings.scale / 3, settings.scale / 3, settings.scale / 3);
+						const currentScale = isMobile ? responsiveScale : settings.scale;
+						model.scale.set(currentScale / 3, currentScale / 3, currentScale / 3);
 						model.position.set(position.x, position.y, position.z);
 					} else if (!entry.isIntersecting && isVisible && model) {
-						// Exiting screen - start exit animation
 						isVisible = false;
 						rotating = false;
 						exitAnimation = true;
@@ -122,22 +151,22 @@
 					}
 				});
 			},
-			{ threshold: 0.15 }
+			{ threshold: isMobile ? 0.1 : 0.15 }
 		);
 
 		$effect(() => parent && intersectionObserver.observe(parent));
 
 		/* Animation */
-
 		function animate() {
 			requestAnimationFrame(animate);
 
 			const dt = clock.getDelta();
 
 			if (model) {
+				const currentScale = isMobile ? responsiveScale : settings.scale;
+
 				// Entrance rotation animation
 				if (rotating) {
-					// Rotation physics
 					spinSpeed += deceleration * dt;
 					spinSpeed = Math.max(spinSpeed, 0);
 
@@ -145,21 +174,18 @@
 					model.rotation.y += deltaRot;
 					rotationLeft -= Math.abs(deltaRot);
 
-					// Scale easing based on progress
 					const progress = 1 - rotationLeft / totalRotation;
 					const eased = progress * progress * (3 - 2 * progress);
-					const minScale = settings.scale / 3;
-					const scale = minScale + eased * (settings.scale - minScale);
+					const minScale = currentScale / 3;
+					const scale = minScale + eased * (currentScale - minScale);
 					model.scale.set(scale, scale, scale);
 
-					// Smooth stop condition
 					if (rotationLeft <= 0 || spinSpeed <= 0.01) {
 						rotating = false;
 						spinSpeed = 0;
-						// Smoothly snap to nearest complete rotation
 						const targetAngle = Math.round(model.rotation.y / totalRotation) * totalRotation;
 						model.rotation.y = targetAngle;
-						model.scale.set(settings.scale, settings.scale, settings.scale);
+						model.scale.set(currentScale, currentScale, currentScale);
 					}
 				}
 
@@ -168,21 +194,15 @@
 					exitProgress += dt / exitDuration;
 					exitProgress = Math.min(exitProgress, 1);
 
-					// Easing function for smooth animation
 					const eased = exitProgress * exitProgress * (3 - 2 * exitProgress);
+					const scale = currentScale * (1 - eased);
+					model.scale.set(scale, scale, scale);
 
-					// Scale down from current scale to 0
-					const currentScale = settings.scale * (1 - eased);
-					model.scale.set(currentScale, currentScale, currentScale);
-
-					// Rotate while exiting (same direction as entrance)
 					model.rotation.y += (Math.PI * 2 * dt) / exitDuration;
 
-					// Move up
-					const moveDistance = 2; // units to move up
+					const moveDistance = isMobile ? 1.5 : 2;
 					model.position.y = position.y + eased * moveDistance;
 
-					// Reset when animation complete
 					if (exitProgress >= 1) {
 						exitAnimation = false;
 						exitProgress = 0;
@@ -205,5 +225,5 @@
 </script>
 
 <div bind:this={parent} class="w-full h-full relative">
-	<canvas bind:this={canvas} class="absolute top-0 left-0 w-full h-full"></canvas>
+	<canvas bind:this={canvas} class="absolute top-0 left-0 w-full h-full touch-none"></canvas>
 </div>

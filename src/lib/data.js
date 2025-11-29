@@ -1,18 +1,17 @@
 export const data = [
 	{
 		name: ['About Us'],
-		_3d_name: 'cam.glb',
+		_3d_name: 'stock.glb',
 		route: '/about',
-		color: '#A78BFA', // Soft Purple
-		complementaryColor: '#FAE78B', // Soft Yellow
-		description: 'Learn more about our mission, vision, and the team behind our organization.',
-		description_fr:
-			"En savoir plus sur notre mission, notre vision et l'équipe derrière notre organisation.",
+		color: '#A78BFA',
+		complementaryColor: '#FAE78B',
+		description: 'We build leaders',
+		description_fr: 'Nous formons leaders',
 		settings: {
 			rotateX: 0,
 			rotateY: 0,
 			rotateZ: 0,
-			scale: 0.7,
+			scale: 0.5,
 			spinSpeed: 10,
 			color: '#a78bfa',
 			wireframe: false
@@ -22,12 +21,10 @@ export const data = [
 		name: ['Projects'],
 		_3d_name: 'cd.glb',
 		route: '/projects',
-		color: '#34D399', // Emerald Green
-		complementaryColor: '#D3346C', // Strong Pink-Red
-		description:
-			'Explore the innovative projects we are currently working on and their real-world impact.',
-		description_fr:
-			'Découvrez les projets innovants sur lesquels nous travaillons actuellement et leur impact réel.',
+		color: '#34D399',
+		complementaryColor: '#D3346C',
+		description: 'Innovation in action',
+		description_fr: 'Innovation en action',
 		settings: {
 			rotateX: 0,
 			rotateY: 0,
@@ -40,13 +37,12 @@ export const data = [
 	},
 	{
 		name: ['Events'],
-		_3d_name: 'glasses.glb',
+		_3d_name: 'trophy.glb',
 		route: '/events',
-		color: '#F472B6', // Pink
-		complementaryColor: '#72F4B0', // Mint Green
-		description: 'Stay updated with our latest workshops, hackathons, and community events.',
-		description_fr:
-			'Restez informé de nos derniers ateliers, hackathons et événements communautaires.',
+		color: '#F472B6',
+		complementaryColor: '#72F4B0',
+		description: 'Create. Compete. Connect.',
+		description_fr: 'Créer. Concourir. Connecter.',
 		settings: {
 			rotateX: 0,
 			rotateY: 0,
@@ -59,13 +55,12 @@ export const data = [
 	},
 	{
 		name: ['Team'],
-		_3d_name: 'pen.glb',
+		_3d_name: 'glasses.glb',
 		route: '/team',
-		color: '#60A5FA', // Blue
-		complementaryColor: '#FAB960', // Orange
-		description: 'Meet the passionate members driving innovation and leadership within our group.',
-		description_fr:
-			'Rencontrez les membres passionnés qui stimulent l’innovation et le leadership au sein de notre groupe.',
+		color: '#60A5FA',
+		complementaryColor: '#FAB960',
+		description: 'Driven by passion',
+		description_fr: 'Guidé par passion',
 		settings: {
 			rotateX: 0,
 			rotateY: 0,
@@ -80,11 +75,10 @@ export const data = [
 		name: ['Contact'],
 		_3d_name: 'phone.glb',
 		route: '/contact',
-		color: '#F59E0B', // Amber
-		complementaryColor: '#0B5AF5', // Deep Blue
-		description: 'Reach out to us for collaboration, inquiries, or support.',
-		description_fr:
-			'Contactez-nous pour une collaboration, des demandes de renseignements ou du soutien.',
+		color: '#F59E0B',
+		complementaryColor: '#0B5AF5',
+		description: 'Let’s collaborate today',
+		description_fr: 'Collaborons aujourd’hui',
 		settings: {
 			rotateX: 0,
 			rotateY: 0,

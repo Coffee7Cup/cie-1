@@ -79,8 +79,8 @@
 
 <div bind:this={wrapper} class="marquee-wrapper">
 	<div class="marquee" bind:this={marquee}>
-		{#each text as item}
-			<span class="text">• {item}</span>
+		{#each text as item ,i (i)}
+			<span class="text font-notable">• {item}</span>
 		{/each}
 	</div>
 </div>

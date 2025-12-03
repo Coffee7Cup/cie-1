@@ -14,10 +14,12 @@
 	let swipeStartCoord = null;
 	let isScrolling = $state(false);
 
+	let scrollAccumulator = $state(0);
+	const SCROLL_THRESHOLD = 200; //Veryyy important to avoid multiple page scrolls ***
+
 	function updateIndexAndScroll(direction) {
 		if (isScrolling) return;
 
-		scrollDirection = direction;
 		let newIndex = currentIndex;
 
 		if (direction === "down" && currentIndex < sections.length - 1) {
@@ -27,27 +29,37 @@
 		}
 
 		if (newIndex !== currentIndex) {
-			currentIndex = newIndex;
 			isScrolling = true;
+			scrollDirection = direction;
+			currentIndex = newIndex;
+			scrollAccumulator = 0;
+
 			setTimeout(() => {
 				isScrolling = false;
-			}, 1000);
+			}, 500);
 		}
 	}
 
 	function onScroll(e) {
-		if (e.type === 'wheel') {
-			e.preventDefault();
+		e.preventDefault();
 
-			if (e.deltaY > 0) {
-				updateIndexAndScroll("down");
-			} else if (e.deltaY < 0) {
-				updateIndexAndScroll("up");
-			}
+		if (isScrolling) return;
+
+		scrollAccumulator += e.deltaY;
+
+		if (scrollAccumulator >= SCROLL_THRESHOLD) {
+			updateIndexAndScroll("down");
+		}
+		else if (scrollAccumulator <= -SCROLL_THRESHOLD) {
+			updateIndexAndScroll("up");
+		}
+
+		if ((scrollAccumulator > 0 && e.deltaY < 0) ||
+			(scrollAccumulator < 0 && e.deltaY > 0)) {
+			scrollAccumulator = e.deltaY;
 		}
 	}
 
-	// Start touch swipe
 	function onSwipeStart(e) {
 		if(e.touches.length === 1) {
 			swipeStartCoord = e.touches[0].clientY;
@@ -55,7 +67,7 @@
 	}
 
 	function onSwipeEnd(e) {
-		if (swipeStartCoord === null) return;
+		if (swipeStartCoord === null || isScrolling) return;
 
 		const endCoord = e.changedTouches[0].clientY;
 		let diff = swipeStartCoord - endCoord;
@@ -111,7 +123,6 @@
 {/each}
 
 <style>
-    /* ... (Your styles remain the same) ... */
     @import url('https://fonts.googleapis.com/css2?family=Notable&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
 

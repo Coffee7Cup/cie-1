@@ -114,17 +114,17 @@
 		};
 		new ResizeObserver(resize).observe(parent);
 
+
+
 		// Physics tuned for smooth animation
-		const fastSpeed = Math.PI * 3;
+		const initialAngVel = Math.PI * 3;
 		const totalRotation = Math.PI * 2;
-		const deceleration = -Math.PI * 1.5;
+		const deceleration = -((initialAngVel * initialAngVel) / (4 * Math.PI));
 
 		let rotating = false;
 		let rotationLeft = totalRotation;
 
 		// Exit animation parameters
-		const exitDuration = 1.0;
-		let exitProgress = 0;
 
 		const clock = new THREE.Clock();
 
@@ -132,22 +132,16 @@
 		const intersectionObserver = new IntersectionObserver(
 			(entries) => {
 				entries.forEach((entry) => {
-					if (entry.isIntersecting && !isVisible && model) {
+					if (entry.isIntersecting && model) {
 						isVisible = true;
 						exitAnimation = false;
 						rotating = true;
-						spinSpeed = fastSpeed;
+						spinSpeed = initialAngVel;
 						rotationLeft = totalRotation;
-						exitProgress = 0;
 
 						const currentScale = isMobile ? responsiveScale : settings.scale;
 						model.scale.set(currentScale / 3, currentScale / 3, currentScale / 3);
 						model.position.set(position.x, position.y, position.z);
-					} else if (!entry.isIntersecting && isVisible && model) {
-						isVisible = false;
-						rotating = false;
-						exitAnimation = true;
-						exitProgress = 0;
 					}
 				});
 			},
@@ -186,26 +180,6 @@
 						const targetAngle = Math.round(model.rotation.y / totalRotation) * totalRotation;
 						model.rotation.y = targetAngle;
 						model.scale.set(currentScale, currentScale, currentScale);
-					}
-				}
-
-				// Exit animation
-				if (exitAnimation) {
-					exitProgress += dt / exitDuration;
-					exitProgress = Math.min(exitProgress, 1);
-
-					const eased = exitProgress * exitProgress * (3 - 2 * exitProgress);
-					const scale = currentScale * (1 - eased);
-					model.scale.set(scale, scale, scale);
-
-					model.rotation.y += (Math.PI * 2 * dt) / exitDuration;
-
-					const moveDistance = isMobile ? 1.5 : 2;
-					model.position.y = position.y + eased * moveDistance;
-
-					if (exitProgress >= 1) {
-						exitAnimation = false;
-						exitProgress = 0;
 					}
 				}
 			}

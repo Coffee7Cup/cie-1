@@ -8,45 +8,84 @@
 	import MouseFollower from '$lib/Hero/MouseFollower.svelte';
 
 	let currentIndex = $state(0);
-	let bgColor = $derived(data[currentIndex - 1]?.complementaryColor || '#ffffff')
+	let bgColor = $derived(data[currentIndex - 1]?.complementaryColor || '#ffffff');
 	let sections = $state([]);
-	let observer = null;
 	let scrollDirection = $state(null);
+	let swipeStartCoord = null;
+	let isScrolling = $state(false);
 
-	function handleIntersection(entries) {
-		entries.forEach(entry => {
-			if (entry.isIntersecting) {
-				const index = sections.indexOf(entry.target);
-				if (index !== -1 && currentIndex !== index) {
-					scrollDirection = index > currentIndex ? 'down' : 'up';
-					currentIndex = index;
-				}
-			}
-		});
+	function updateIndexAndScroll(direction) {
+		if (isScrolling) return;
+
+		scrollDirection = direction;
+		let newIndex = currentIndex;
+
+		if (direction === "down" && currentIndex < sections.length - 1) {
+			newIndex = currentIndex + 1;
+		} else if (direction === "up" && currentIndex > 0) {
+			newIndex = currentIndex - 1;
+		}
+
+		if (newIndex !== currentIndex) {
+			currentIndex = newIndex;
+			isScrolling = true;
+			setTimeout(() => {
+				isScrolling = false;
+			}, 1000);
+		}
 	}
 
-	onMount(() => {
-		observer = new IntersectionObserver(handleIntersection, {
-			root: null,
-			threshold: 0.1,
-		});
+	function onScroll(e) {
+		if (e.type === 'wheel') {
+			e.preventDefault();
 
-		sections.forEach(section => {
-			if (section) {
-				observer.observe(section);
+			if (e.deltaY > 0) {
+				updateIndexAndScroll("down");
+			} else if (e.deltaY < 0) {
+				updateIndexAndScroll("up");
 			}
-		});
+		}
+	}
 
-		return () => {
-			if (observer) {
-				observer.disconnect();
-			}
-		};
+	// Start touch swipe
+	function onSwipeStart(e) {
+		if(e.touches.length === 1) {
+			swipeStartCoord = e.touches[0].clientY;
+		}
+	}
+
+	function onSwipeEnd(e) {
+		if (swipeStartCoord === null) return;
+
+		const endCoord = e.changedTouches[0].clientY;
+		let diff = swipeStartCoord - endCoord;
+
+		if (diff > 50) {
+			updateIndexAndScroll("down");
+		} else if (diff < -50) {
+			updateIndexAndScroll("up");
+		}
+
+		swipeStartCoord = null;
+	}
+
+	$effect(() => {
+		if (sections[currentIndex]) {
+			sections[currentIndex].scrollIntoView({ behavior: 'smooth' });
+		}
 	});
 
+	onMount(() => {
+		window.addEventListener('wheel', onScroll, { passive: false });
+		window.addEventListener('touchstart', onSwipeStart, { passive: false });
+		window.addEventListener('touchend', onSwipeEnd, { passive: false });
 
-
-
+		return () => {
+			window.removeEventListener('wheel', onScroll);
+			window.removeEventListener('touchstart', onSwipeStart);
+			window.removeEventListener('touchend', onSwipeEnd);
+		};
+	});
 </script>
 
 <div
@@ -55,26 +94,24 @@
 >
 </div>
 
-<!--<MouseFollower bind:currentIndex={currentIndex}/>-->
+<MouseFollower bind:currentIndex={currentIndex} />
 
 <Background bind:currentIndex={currentIndex} {scrollDirection} />
 
 <Navbar bind:currentIndex={currentIndex}/>
 
-<div class="snap-y snap-mandatory snap-always snap-align-none h-full w-full overflow-y-scroll relative">
-	<div bind:this={sections[0]} class="snap-start w-full h-full">
-		<Starting />
-	</div>
-
-	{#each data as item, i (i)}
-		<div bind:this={sections[i + 1]} class="snap-start w-full h-full">
-			<Canvas name={item._3d_name} settings={item.settings} />
-		</div>
-	{/each}
-
+<div bind:this={sections[0]} class="relative w-full h-full">
+	<Starting />
 </div>
 
+{#each data as item, i (i)}
+	<div bind:this={sections[i + 1]} class="relative w-full h-full">
+		<Canvas name={item._3d_name} settings={item.settings} />
+	</div>
+{/each}
+
 <style>
+    /* ... (Your styles remain the same) ... */
     @import url('https://fonts.googleapis.com/css2?family=Notable&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
 
@@ -95,6 +132,6 @@
         height: 100%;
         margin: 0;
         padding: 0;
+        overflow: hidden;
     }
-
 </style>

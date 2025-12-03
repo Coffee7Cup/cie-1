@@ -36,7 +36,6 @@
   right-[50%] lg:right-0
   translate-x-1/2 lg:translate-x-0
   z-[1] pointer-events-none
-  overflow-hidden
 ">
 	<div class="
 	absolute w-full h-full
@@ -55,7 +54,7 @@
  		inset-0 flex flex-col-reverse
  		justify-end lg:justify-start
  		z-[3] px-6
-  	relative py-24 .scale-y-10
+  	relative py-14 lg:py-26
 ">
 	<h1 class="text-4xl lg:text-8xl font-bold text-anim relative z-[3] font-notable" >
 		CENTER FOR

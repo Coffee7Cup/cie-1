@@ -60,12 +60,12 @@
 				mask-[radial-gradient(circle,black_40%,transparent_60%)]
 				bg-transparent
 				opacity-0
-				pointer-events-auto
 <!--				hover:opacity-100-->
 				hover:bg-black/10
 				hover:backdrop-blur-sm
 				hover:cursor-pointer
 				transition-all duration-300
 			"
+	aria-label="ss"
 	style={currentIndex !== 0 ? `display : hidden` : `display : none;` }>
 </button>

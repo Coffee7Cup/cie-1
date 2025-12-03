@@ -3,6 +3,7 @@
 	import * as THREE from 'three';
 	import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 	import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+	import {base} from '$app/paths'
 
 	let { settings, name, position = { x: 0, y: 0, z: 0 } } = $props();
 
@@ -62,7 +63,7 @@
 		const responsiveScale = isMobile ? settings.scale * 0.7 : settings.scale;
 
 		loader.load(
-			`/assets/${name}`,
+			`${base}/assets/${name}`,
 			(gltf) => {
 				model = gltf.scene;
 				scene.add(model);
@@ -73,7 +74,7 @@
 				model.traverse((child) => {
 					if (child.isMesh) {
 						const m = child.material;
-						m.metalness = 0;
+						m.metalness = 0.6;
 						m.roughness = 0.7;
 						if (settings.color) m.color = new THREE.Color(settings.color);
 						m.needsUpdate = true;
@@ -223,6 +224,6 @@
 	});
 </script>
 
-<div bind:this={parent} class="w-full h-full relative">
-	<canvas bind:this={canvas} class="absolute top-0 left-0 w-full h-full touch-none"></canvas>
+<div bind:this={parent} class="w-full h-full relative pointer-events-none z-2 ">
+	<canvas bind:this={canvas} class="absolute w-full h-full "></canvas>
 </div>

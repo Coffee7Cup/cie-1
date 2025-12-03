@@ -2,8 +2,6 @@
 	import { onMount } from "svelte";
 	import gsap from "gsap";
 	import SplitText from "gsap/SplitText";
-	import Canvas from '$lib/canvas/Canvas.svelte';
-	import BulbBackground from '$lib/Hero/BulbBackground.svelte';
 	import Attempt3 from '$lib/Hero/Attempt3.svelte';
 
 
@@ -22,7 +20,7 @@
 
 <div
 	class="
-  absolute h-full w-full
+  absolute h-full w-[90vw]
   bg-[linear-gradient(to_right,#80808055_1px,transparent_1px),linear-gradient(to_bottom,#80808055_1px,transparent_1px)]
   bg-[size:54px_54px]
   mask-[radial-gradient(circle,white_10%,transparent_60%)]
@@ -33,23 +31,32 @@
 <div class="
   absolute
   h-[50vh] lg:h-[85%]
-  w-full lg:w-[70%]
-  top-[30vh] lg:top-0
-  left-1/2 lg:left-auto
-  -translate-x-1/2 lg:translate-x-0
-  right-auto lg:right-[-10%]
-  z-[1] pointer-events-none overflow-visible
+  w-full lg:w-[50%]
+  top-[40vh] lg:top-0
+  right-[50%] lg:right-0
+  translate-x-1/2 lg:translate-x-0
+  z-[1] pointer-events-none
+  overflow-hidden
 ">
+	<div class="
+	absolute w-full h-full
+	bg-yellow-300/80
+	z-[-1]
+	-translate-y-1/4
+	mask-[radial-gradient(circle,white_10%,transparent_60%)]
+"
+	></div>
 	<Attempt3/>
 </div>
 
 
 <div class="
-		w-screen h-screen
+		w-full h-full
  		inset-0 flex flex-col-reverse
  		justify-end lg:justify-start
  		z-[3] px-6
-  	relative py-24">
+  	relative py-24 .scale-y-10
+">
 	<h1 class="text-4xl lg:text-8xl font-bold text-anim relative z-[3] font-notable" >
 		CENTER FOR
 		<br />

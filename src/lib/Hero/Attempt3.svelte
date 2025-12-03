@@ -7,7 +7,7 @@
 	let parent;
 	let canvas;
 	let scene, camera, renderer;
-	let bulbGlobe;
+	let bulb;
 	let glowLight;
 	let animationFrameId;
 
@@ -83,12 +83,12 @@
 		// Load the bulb globe GLB
 		const loader = new GLTFLoader();
 		loader.load(
-			`/assets/blub_globe.glb`,
+			`${base}/assets/bulb.glb`,
 			(gltf) => {
-				bulbGlobe = gltf.scene;
+				bulb = gltf.scene;
 
 				// Traverse and make materials suitable for glowing
-				bulbGlobe.traverse((child) => {
+				bulb.traverse((child) => {
 					if (child.isMesh) {
 						// Make glass/transparent parts
 						if (child.material) {
@@ -99,10 +99,10 @@
 				});
 
 				// Scale and position
-				bulbGlobe.scale.setScalar(1);
-				bulbGlobe.position.set(0, 0, 0);
+				bulb.scale.setScalar(0.8);
+				bulb.position.set(0, 0, 0);
 
-				scene.add(bulbGlobe);
+				scene.add(bulb);
 			},
 			undefined,
 			(error) => {
@@ -124,8 +124,8 @@
 		time += 0.016;
 
 		// Gentle rotation
-		if (bulbGlobe) {
-			bulbGlobe.rotation.y += 0.005;
+		if (bulb) {
+			bulb.rotation.y += 0.005;
 		}
 
 		// Slight camera orbit

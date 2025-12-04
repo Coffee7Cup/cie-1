@@ -100,27 +100,30 @@
 	});
 </script>
 
-<div
-	class="fixed w-full h-full overflow-hidden pointer-events-none"
-	style="background-color: {bgColor}; transition: background-color 1s ease;"
->
-</div>
+<div class="overflow-hidden h-full w-full">
 
-<MouseFollower bind:currentIndex={currentIndex} />
-
-<Background bind:currentIndex={currentIndex} {scrollDirection} />
-
-<Navbar bind:currentIndex={currentIndex}/>
-
-<div bind:this={sections[0]} class="relative w-full h-full">
-	<Starting />
-</div>
-
-{#each data as item, i (i)}
-	<div bind:this={sections[i + 1]} class="relative w-full h-full">
-		<Canvas name={item._3d_name} settings={item.settings} />
+	<div
+		class="fixed w-full h-full overflow-hidden pointer-events-none"
+		style="background-color: {bgColor}; transition: background-color 1s ease;"
+	>
 	</div>
-{/each}
+
+	<MouseFollower bind:currentIndex={currentIndex} />
+
+	<Background bind:currentIndex={currentIndex} {scrollDirection} />
+
+	<Navbar bind:currentIndex={currentIndex}/>
+
+	<div bind:this={sections[0]} class="relative w-full h-full">
+		<Starting />
+	</div>
+
+	{#each data as item, i (i)}
+		<div bind:this={sections[i + 1]} class="relative w-full h-full">
+			<Canvas name={item._3d_name} settings={item.settings} />
+		</div>
+	{/each}
+</div>
 
 <style>
 

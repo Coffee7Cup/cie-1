@@ -50,7 +50,7 @@
 		scene.add(dirLight2);
 
 		const renderer = new THREE.WebGLRenderer({ canvas, antialias: !isMobile, alpha: true });
-		renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1));
+		renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 		const loader = new GLTFLoader();
 

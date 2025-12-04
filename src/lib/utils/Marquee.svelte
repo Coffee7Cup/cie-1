@@ -142,7 +142,7 @@
 
     .text {
         /* Responsive font size */
-        font-size: clamp(2rem, 8vw, 4rem);
+        font-size: clamp(3rem, 8vw, 4.5rem);
         font-weight: 800;
         white-space: nowrap;
         /* Improve text rendering */

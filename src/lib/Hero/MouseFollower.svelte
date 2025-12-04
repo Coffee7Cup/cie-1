@@ -32,7 +32,7 @@
 <!--this is the element that hover around-->
 <span
 	bind:this={followerEl}
-	class="fixed p-2 bg-black/30 backdrop-blur-sm border-black/20 border-1 rounded-lg text-md text-white z-[4] pointer-events-none hidden"
+	class="fixed p-2 bg-black/30 backdrop-blur-sm border-black/20 border-1 rounded-lg text-md text-white z-[4] pointer-events-none hidden "
 	style="position: fixed;"
 >
 	<span class="flex items-center justify-around w-full gap-2">

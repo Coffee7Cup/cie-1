@@ -68,7 +68,7 @@
 						w-full py-3 text-white text-base sm:text-lg
 						hover:bg-white/10 transition
 						text-center cursor-pointer
-						border-b border-white/5 last:border-none
+						border-b border-white/40 last:border-none
 					"
 					onclick={() => {
 						currentIndex = i + 1;

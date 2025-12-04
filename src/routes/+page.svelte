@@ -123,26 +123,5 @@
 {/each}
 
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Notable&display=swap');
-    @import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
 
-    :global(.font-notable) {
-        font-family: 'Notable', sans-serif;
-    }
-
-    :global(.font-moda) {
-        font-family: 'Russo One', sans-serif;
-    }
-
-    :global(.scale-y-10) {
-        transform: scaleY(1.9);
-        transform-origin: center;
-    }
-
-    :global(html, body) {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-    }
 </style>

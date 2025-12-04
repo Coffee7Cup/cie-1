@@ -10,15 +10,47 @@
 	let bulb;
 	let glowLight;
 	let animationFrameId;
+	let isVisible = false; // Track visibility
 
 	onMount(() => {
 		initScene();
+
+		// Set up intersection observer
+		const observer = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					isVisible = entry.isIntersecting;
+
+					if (isVisible) {
+						// Resume animation when visible
+						if (!animationFrameId) {
+							animate();
+						}
+					} else {
+						// Stop animation when not visible
+						if (animationFrameId) {
+							cancelAnimationFrame(animationFrameId);
+							animationFrameId = null;
+						}
+					}
+				});
+			},
+			{
+				threshold: 0, // Trigger as soon as any part is visible
+				rootMargin: '50px' // Start slightly before entering viewport
+			}
+		);
+
+		if (parent) {
+			observer.observe(parent);
+		}
 
 		return () => {
 			// Cleanup
 			if (animationFrameId) {
 				cancelAnimationFrame(animationFrameId);
 			}
+			observer.disconnect();
 			window.removeEventListener('resize', onResize);
 			renderer?.dispose();
 			scene?.traverse((object) => {
@@ -56,7 +88,8 @@
 		renderer = new THREE.WebGLRenderer({
 			canvas,
 			alpha: true,
-			antialias: true
+			antialias: true,
+			powerPreference: 'high-performance' // Optimize for performance
 		});
 		renderer.setSize(parent.clientWidth, parent.clientHeight);
 		renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -76,10 +109,6 @@
 		rimLight1.position.set(5, 5, 5);
 		scene.add(rimLight1);
 
-		const rimLight2 = new THREE.DirectionalLight(0xffffff, 0.3);
-		rimLight2.position.set(-5, -3, -5);
-		scene.add(rimLight2);
-
 		// Load the bulb globe GLB
 		const loader = new GLTFLoader();
 		loader.load(
@@ -92,7 +121,7 @@
 					if (child.isMesh) {
 						// Make glass/transparent parts
 						if (child.material) {
-							child.material.metalness = 0.3;
+							child.material.metalness = 0.5;
 							child.material.roughness = 0.1;
 						}
 					}
@@ -113,12 +142,20 @@
 		// Handle resize
 		window.addEventListener('resize', onResize);
 
-		// Start animation
-		animate();
+		// Start animation only if visible
+		if (isVisible) {
+			animate();
+		}
 	}
 
 	let time = 0;
 	function animate() {
+		// Only continue if visible
+		if (!isVisible) {
+			animationFrameId = null;
+			return;
+		}
+
 		animationFrameId = requestAnimationFrame(animate);
 
 		time += 0.016;

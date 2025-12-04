@@ -56,7 +56,7 @@
  		z-[3] px-6
   	relative py-14 lg:py-26
 ">
-	<h1 class="text-4xl lg:text-8xl font-bold text-anim relative z-[3] font-notable" >
+	<h1 class="text-4xl lg:text-[6.5rem] font-bold text-anim relative z-[3] font-notable" >
 		CENTER FOR
 		<br />
 		INNOVATION AND

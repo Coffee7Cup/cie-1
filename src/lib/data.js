@@ -22,7 +22,7 @@ export const data = [
 		_3d_name: 'cd.glb',
 		route: '/projects',
 		color: '#34D399',
-		complementaryColor: '#D3346C',
+		complementaryColor: '#F7BAD1',
 		description: 'Innovation in action',
 		description_fr: 'Real ideas built into products that solve problems and inspire.',
 		settings: {
@@ -76,7 +76,7 @@ export const data = [
 		_3d_name: 'minimal_phone.glb',
 		route: '/contact',
 		color: '#F59E0B',
-		complementaryColor: '#0B5AF5',
+		complementaryColor: '#0BD9F5',
 		description: 'Let’s collaborate today',
 		description_fr: 'Reach out, connect with us, let’s collaborate and build future.',
 		settings: {

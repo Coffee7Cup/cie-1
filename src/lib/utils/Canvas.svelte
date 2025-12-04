@@ -1,7 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
 	import * as THREE from 'three';
-	import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 	import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 	import {base} from '$app/paths'
 
@@ -12,8 +11,9 @@
 	let model;
 	let spinSpeed = 0;
 	let isVisible = false;
-	let exitAnimation = false;
 	let isMobile = false;
+	let animationFrameId = null
+	let animationState = 'idle'; // Using a state variable is cleaner for entrance logic
 
 	onMount(() => {
 		// Detect mobile
@@ -28,7 +28,7 @@
 			0.1,
 			1000
 		);
-
+		// ... (Camera and Light setup - unchanged) ...
 		// Adjust camera position for mobile
 		if (isMobile) {
 			camera.position.set(5, 2.5, 4);
@@ -42,20 +42,15 @@
 
 		const dirLight1 = new THREE.DirectionalLight(0xffffff, 1.5);
 		dirLight1.position.set(5, 5, 5);
+		dirLight1.castShadow = false;
 		scene.add(dirLight1);
 
 		const dirLight2 = new THREE.DirectionalLight(0xffffff, 1);
 		dirLight2.position.set(-5, 3, -5);
 		scene.add(dirLight2);
 
-		const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-		renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Limit pixel ratio for performance
-
-		const controls = new OrbitControls(camera, canvas);
-		controls.enableDamping = true;
-		controls.dampingFactor = 0.05;
-		// Disable controls on mobile for better performance
-		controls.enabled = !isMobile;
+		const renderer = new THREE.WebGLRenderer({ canvas, antialias: !isMobile, alpha: true });
+		renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1));
 
 		const loader = new GLTFLoader();
 
@@ -68,8 +63,11 @@
 				model = gltf.scene;
 				scene.add(model);
 
+				// Initial scale needs to be set BEFORE the observer triggers animation
+				const initialScale = isMobile ? responsiveScale : settings.scale;
+				model.scale.set(initialScale, initialScale, initialScale);
+
 				model.position.set(position.x, position.y, position.z);
-				model.scale.set(responsiveScale, responsiveScale, responsiveScale);
 
 				model.traverse((child) => {
 					if (child.isMesh) {
@@ -86,7 +84,7 @@
 				console.error('Error loading model:', error);
 			}
 		);
-
+		// ... (Resize Listener - unchanged) ...
 		/* --- RESIZE LISTENER --- */
 		const resize = () => {
 			if (!parent) return;
@@ -109,50 +107,32 @@
 					camera.position.set(4, 2, 3);
 				}
 				camera.updateProjectionMatrix();
-				controls.enabled = !isMobile;
 			}
 		};
 		new ResizeObserver(resize).observe(parent);
 
 
-
 		// Physics tuned for smooth animation
 		const initialAngVel = Math.PI * 3;
-		const totalRotation = Math.PI * 2;
-		const deceleration = -((initialAngVel * initialAngVel) / (4 * Math.PI));
+		const totalRotation = Math.PI * 2; // Increased rotation for better effect
+		const deceleration = -(initialAngVel * initialAngVel) / (2 * totalRotation);
 
 		let rotating = false;
 		let rotationLeft = totalRotation;
 
-		// Exit animation parameters
-
 		const clock = new THREE.Clock();
 
-		/* Intersection */
-		const intersectionObserver = new IntersectionObserver(
-			(entries) => {
-				entries.forEach((entry) => {
-					if (entry.isIntersecting && model) {
-						isVisible = true;
-						exitAnimation = false;
-						rotating = true;
-						spinSpeed = initialAngVel;
-						rotationLeft = totalRotation;
+		/* Function to stop the animation loop */
+		function stopAnimation() {
+			if (animationFrameId) {
+				cancelAnimationFrame(animationFrameId);
+				animationFrameId = null;
+			}
+		}
 
-						const currentScale = isMobile ? responsiveScale : settings.scale;
-						model.scale.set(currentScale / 3, currentScale / 3, currentScale / 3);
-						model.position.set(position.x, position.y, position.z);
-					}
-				});
-			},
-			{ threshold: isMobile ? 0.1 : 0.15 }
-		);
-
-		$effect(() => parent && intersectionObserver.observe(parent));
-
-		/* Animation */
+		/* Animation Loop */
 		function animate() {
-			requestAnimationFrame(animate);
+			animationFrameId = requestAnimationFrame(animate); // Keep this at the top
 
 			const dt = clock.getDelta();
 
@@ -161,38 +141,84 @@
 
 				// Entrance rotation animation
 				if (rotating) {
-					spinSpeed += deceleration * dt;
-					spinSpeed = Math.max(spinSpeed, 0);
+					// Angular Kinematics (using average velocity for accuracy)
+					const nextSpinSpeed = spinSpeed + deceleration * dt;
+					const deltaRot = ((spinSpeed + nextSpinSpeed) / 2) * dt;
 
-					const deltaRot = spinSpeed * dt;
 					model.rotation.y += deltaRot;
 					rotationLeft -= Math.abs(deltaRot);
+					spinSpeed = nextSpinSpeed;
+					spinSpeed = Math.max(spinSpeed, 0); // clamp at 0
 
-					const progress = 1 - rotationLeft / totalRotation;
-					const eased = progress * progress * (3 - 2 * progress);
+					// Scaling (Cubic Ease)
+					const progress = 1 - Math.max(0, rotationLeft / totalRotation);
+					const eased = progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
 					const minScale = currentScale / 3;
 					const scale = minScale + eased * (currentScale - minScale);
 					model.scale.set(scale, scale, scale);
 
+					// Stop Condition
 					if (rotationLeft <= 0 || spinSpeed <= 0.01) {
 						rotating = false;
 						spinSpeed = 0;
-						const targetAngle = Math.round(model.rotation.y / totalRotation) * totalRotation;
-						model.rotation.y = targetAngle;
+						animationState = 'idle'; // Reset state
+
+						const targetRotations = Math.round(model.rotation.y / (Math.PI * 2));
+						model.rotation.y = targetRotations * Math.PI * 2;
 						model.scale.set(currentScale, currentScale, currentScale);
 					}
 				}
 			}
 
-			controls.update();
 			renderer.render(scene, camera);
 		}
 
-		animate();
+		/* Intersection */
+		const intersectionObserver = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting && model) {
+						// START ANIMATION LOOP IF IT IS NOT RUNNING
+						if (animationFrameId === null) {
+							// This must be called only when visible
+							animate();
+						}
+
+						// START ENTRANCE ANIMATION LOGIC
+						if(animationState === 'idle') {
+							isVisible = true;
+							animationState = 'entering';
+							rotating = true;
+
+							spinSpeed = initialAngVel;
+							rotationLeft = totalRotation;
+
+							const currentScale = isMobile ? responsiveScale : settings.scale;
+							const initialScale = currentScale / 3;
+							model.scale.set(initialScale, initialScale, initialScale); // Ensure small scale start
+							model.position.set(position.x, position.y, position.z);
+							console.log("helllo there")
+						}
+					}
+					else{
+						// STOP ANIMATION LOOP WHEN OFF-SCREEN
+						console.log("helllo there else")
+						stopAnimation()
+					}
+				});
+			},
+			{ threshold: isMobile ? 0.1 : 0.15 }
+		);
+
+		$effect(() => parent && intersectionObserver.observe(parent));
+
+		// REMOVED THE UNCONDITIONAL animate(); CALL HERE
 
 		// Cleanup
 		return () => {
 			intersectionObserver.disconnect();
+			stopAnimation() // Stop the loop when component is destroyed
 			renderer.dispose();
 		};
 	});

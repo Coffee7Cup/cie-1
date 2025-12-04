@@ -1,3 +1,0 @@
-import"../chunks/DsnmJJEf.js";import"../chunks/_xr20-wS.js";import{p as e,f as s,t as n,a as i,b as r}from"../chunks/BexbWm9S.js";import{s as p,d as l}from"../chunks/CxHq6l9U.js";import{i as d}from"../chunks/BAtfUX3_.js";var m=s(`<div><div class="
-		font-notable text-5xl lg:text-9xl
-		font-bold leading-snug mx-8">About Us</div> <div><div><span class="font-notable font-bold text-5xl">Mission</span> <span>To build an ecosystem to incubate and support innivative ideas in the region and to create employement entrepenurial oppurtuniites for studnets facutly and researchers through succesful startups</span></div></div></div>`);function x(o,a){e(a,!1),d();var t=m();n(()=>p(t,`background-color: ${l[0].complementaryColor??""};}`)),i(o,t),r()}export{x as component};

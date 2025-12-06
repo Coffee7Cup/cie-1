@@ -33,23 +33,22 @@
 			});
 		});
 	});
+
+	//TODO : change the team bg, cie logo is not the home, when overflow: hidden cannot scrolll in other pages too(important)
 </script>
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<button
+<div
 	class="fixed top-5 right-3 lg:top-8 lg:right-6
-  cursor-pointer
   z-20
   w-12 lg:w-18
-  hover:scale-110 hover:-rotate-45 transition-all duration-100"
-	aria-label="Toggle navigation"
-	onclick={() => goto(resolve(''))}
+  lg:hover:scale-110 lg:hover:-rotate-45 transition-all duration-100"
 >
 	<img src={favicon} alt="cie-logo" />
-</button>
+</div>
 
 <div class="page-transition">
 	{@render children()}
@@ -152,9 +151,5 @@
         transform-origin: center;
     }
 
-    :global(html, body) {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-    }
+
 </style>

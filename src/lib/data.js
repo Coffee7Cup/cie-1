@@ -58,7 +58,7 @@ export const data = [
 		_3d_name: 'glasses.glb',
 		route: '/team',
 		color: '#60A5FA',
-		complementaryColor: '#FAB960',
+		complementaryColor: '#E23A3A',
 		description: 'Driven by passion',
 		description_fr: 'Team fueled by passion, collaboration, dedication, purpose and limitless growth.',
 		settings: {

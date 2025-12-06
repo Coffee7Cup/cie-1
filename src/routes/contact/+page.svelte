@@ -1,5 +1,8 @@
 <script>
 	import { data } from '$lib/data.js';
+	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
+	import BackwardArrow from '@svelte-parts/icons/feather/arrow-left/index.js';
 
 	// Placeholder for submission logic
 	let name = "";
@@ -15,6 +18,19 @@
 	class="min-h-screen text-black overflow-y-auto"
 	style="background-color: {data[4].complementaryColor};"
 >
+	<button class="flex justify-center items-center
+		fixed right-4 bottom-4
+		p-2 backdrop-blur-sm bg-black/40 rounded-2xl text-2xl z-10
+		transition ease-in-out duration-200
+		hover:scale-110"
+					onclick={() => {goto(resolve(''))}}
+	>
+		<span class="w-[30px] h-[30px] flex items-center justify-center">
+			<BackwardArrow inline={false}/>
+		</span>
+		Home
+	</button>
+
 	<header class="pt-10 pb-6 px-8">
 		<h1 class="font-notable font-bold text-5xl lg:text-8xl leading-none">
 			Contact
@@ -97,7 +113,7 @@
 			</div>
 
 			<button
-				on:click={submitForm}
+				onclick={submitForm}
 				class="w-full font-moda text-lg font-bold bg-black text-white py-3 rounded-xl hover:bg-gray-900 hover:scale-105 transition-all duration-150"
 			>
 				Submit
@@ -112,3 +128,13 @@
 
 	<div class="h-20"></div>
 </div>
+
+
+<style>
+    :global(html, body) {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-y: scroll !important;
+    }
+</style>

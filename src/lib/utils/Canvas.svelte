@@ -77,7 +77,11 @@
 						if (settings.color) m.color = new THREE.Color(settings.color);
 						m.needsUpdate = true;
 					}
-				});
+				})
+
+				if (parent && parent.getBoundingClientRect().height > 0) {
+					animate();
+				}
 			},
 			undefined,
 			(error) => {

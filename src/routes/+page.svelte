@@ -6,9 +6,9 @@
 	import Navbar from '$lib/Hero/Navbar.svelte';
 	import Background from '$lib/Hero/Background.svelte';
 	import MouseFollower from '$lib/Hero/MouseFollower.svelte';
+	import { heroIndex } from '$lib/store.js';
 
-	let currentIndex = $state(0);
-	let bgColor = $derived(data[currentIndex - 1]?.complementaryColor || '#ffffff');
+	let bgColor = $derived(data[$heroIndex - 1]?.complementaryColor || '#ffffff');
 	let sections = $state([]);
 	let scrollDirection = $state(null);
 	let swipeStartCoord = null;
@@ -20,18 +20,18 @@
 	function updateIndexAndScroll(direction) {
 		if (isScrolling) return;
 
-		let newIndex = currentIndex;
+		let newIndex = $heroIndex;
 
-		if (direction === "down" && currentIndex < sections.length - 1) {
-			newIndex = currentIndex + 1;
-		} else if (direction === "up" && currentIndex > 0) {
-			newIndex = currentIndex - 1;
+		if (direction === "down" && $heroIndex < sections.length - 1) {
+			newIndex = $heroIndex + 1;
+		} else if (direction === "up" && $heroIndex > 0) {
+			newIndex = $heroIndex - 1;
 		}
 
-		if (newIndex !== currentIndex) {
+		if (newIndex !== $heroIndex) {
 			isScrolling = true;
 			scrollDirection = direction;
-			currentIndex = newIndex;
+			$heroIndex = newIndex;
 			scrollAccumulator = 0;
 
 			setTimeout(() => {
@@ -82,8 +82,8 @@
 	}
 
 	$effect(() => {
-		if (sections[currentIndex]) {
-			sections[currentIndex].scrollIntoView({ behavior: 'smooth' });
+		if (sections[$heroIndex]) {
+			sections[$heroIndex].scrollIntoView({ behavior: 'smooth' });
 		}
 	});
 
@@ -100,31 +100,33 @@
 	});
 </script>
 
-<div class="overflow-hidden h-full w-full">
-
-	<div
-		class="fixed w-full h-full overflow-hidden pointer-events-none"
-		style="background-color: {bgColor}; transition: background-color 1s ease;"
-	>
-	</div>
-
-	<MouseFollower bind:currentIndex={currentIndex} />
-
-	<Background bind:currentIndex={currentIndex} {scrollDirection} />
-
-	<Navbar bind:currentIndex={currentIndex}/>
-
-	<div bind:this={sections[0]} class="relative w-full h-full">
-		<Starting />
-	</div>
-
-	{#each data as item, i (i)}
-		<div bind:this={sections[i + 1]} class="relative w-full h-full">
-			<Canvas name={item._3d_name} settings={item.settings} />
-		</div>
-	{/each}
+<div
+	class="fixed w-full h-full overflow-hidden pointer-events-none"
+	style="background-color: {bgColor}; transition: background-color 1s ease;"
+>
 </div>
 
-<style>
+<MouseFollower bind:currentIndex={$heroIndex} />
 
+<Background bind:currentIndex={$heroIndex} {scrollDirection} />
+
+<Navbar bind:currentIndex={$heroIndex}/>
+
+<div bind:this={sections[0]} class="relative w-full h-full">
+	<Starting />
+</div>
+
+{#each data as item, i (i)}
+	<div bind:this={sections[i + 1]} class="relative w-full h-full">
+		<Canvas name={item._3d_name} settings={item.settings} />
+	</div>
+{/each}
+
+<style>
+    :global(html, body) {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden; /* i dont know y this is important...without this the scroll behaviour (home screen - snapping) is not working*/
+    }
 </style>

@@ -1,5 +1,8 @@
 <script>
 	import { data } from '$lib/data.js';
+	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
+	import BackwardArrow from '@svelte-parts/icons/feather/arrow-left/index.js';
 
 	// Temporary mock project cards — replace or connect dynamically later
 	const projects = [
@@ -25,6 +28,18 @@
 	class="min-h-screen text-black overflow-y-auto"
 	style="background-color: {data[1].complementaryColor};"
 >
+	<button class="flex justify-center items-center
+		fixed right-4 bottom-4
+		p-2 backdrop-blur-sm bg-black/40 rounded-2xl text-2xl z-10
+		transition ease-in-out duration-200
+		hover:scale-110"
+					onclick={() => {goto(resolve(''))}}
+	>
+		<span class="w-[30px] h-[30px] flex items-center justify-center">
+			<BackwardArrow inline={false}/>
+		</span>
+		Home
+	</button>
 	<!-- Title -->
 	<header class="pt-10 pb-6 px-8">
 		<h1
@@ -70,3 +85,12 @@
 
 	<div class="h-16"></div>
 </div>
+
+<style>
+    :global(html, body) {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-y: scroll !important;
+    }
+</style>

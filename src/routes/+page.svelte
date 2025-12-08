@@ -128,5 +128,6 @@
         margin: 0;
         padding: 0;
         overflow: hidden; /* i dont know y this is important...without this the scroll behaviour (home screen - snapping) is not working*/
+		/*		i guess there is no way around this... the gemini says that overflow : hidden prevent the default browser behavior, and that what i want*/
     }
 </style>

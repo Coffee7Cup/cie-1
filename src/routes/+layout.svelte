@@ -1,8 +1,6 @@
 <script>
 	import './layout.css';
 	import favicon from '$lib/assets/cie-logo.png';
-	import { goto } from '$app/navigation';
-	import { resolve } from '$app/paths';
 	import { onNavigate } from '$app/navigation';
 
 	let { children } = $props();
@@ -57,7 +55,6 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Notable&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
-
     @import url('https://fonts.googleapis.com/css2?family=Racing+Sans+One&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
 
     /* Forward navigation animations (right to left) */

@@ -8,11 +8,11 @@
 </script>
 
 <button class="flex justify-center items-center
-		fixed left-3 top-3
-		px-2 p-1.5 backdrop-blur-sm bg-white/30 rounded-2xl text-xl z-10
+		fixed right-4 bottom-4
+		px-3 p-2.5 backdrop-blur-sm bg-white/30 rounded-2xl text-xl z-10
 		transition ease-in-out duration-200
 		hover:scale-110"
-				onclick={() => {goto(resolve(''))}}
+			onclick={() => {goto(resolve(''))}}
 >
 		<span class="w-[20px] h-[20px] flex items-center justify-center">
 			<BackwardArrow inline={false}/>

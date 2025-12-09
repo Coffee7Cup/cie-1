@@ -1,117 +1,123 @@
 <script>
 	import { data } from '$lib/data.js';
 	import PageParent from '$lib/utils/PageParent.svelte';
+	import { onMount } from 'svelte';
 
-	// Temporary mock data — replace with real team list later
-	const high = [
-		{
-			name: "Alex Johnson",
-			role: "President",
-			img: "https://placehold.co/600x600"
-		},
-		{
-			name: "Priya Sharma",
-			role: "Vice President",
-			img: "https://placehold.co/600x600"
-		}
-	];
+	let teamDataPromise = null;
 
-	const medium = [
-		{
-			name: "Rahul Mehta",
-			role: "Tech Lead",
-			img: "https://placehold.co/500x500"
-		},
-		{
-			name: "Emma Garcia",
-			role: "Design Lead",
-			img: "https://placehold.co/500x500"
-		},
-		{
-			name: "Sara Ali",
-			role: "Events Lead",
-			img: "https://placehold.co/500x500"
-		}
-	];
+	let head = null;
+	let faculty = null;
+	let student = null;
 
-	const members = [
-		{ name: "John Doe", img: "https://placehold.co/300x300" },
-		{ name: "Ayesha", img: "https://placehold.co/300x300" },
-		{ name: "Karthik", img: "https://placehold.co/300x300" },
-		{ name: "Riya", img: "https://placehold.co/300x300" },
-		{ name: "Ravi", img: "https://placehold.co/300x300" },
-		{ name: "Anna", img: "https://placehold.co/300x300" }
-	];
+	onMount(() => {
+		teamDataPromise = fetch(`https://raw.githubusercontent.com/coffee7cup/ciewebrepo/main/team.json`)
+			.then(res => {
+				if (!res.ok) {
+					throw new Error(`HTTP error! Status: ${res.status}`);
+				}
+				return res.json();
+			})
+			.then(teamArray => {
+
+				head = teamArray.filter(member => member.category.toLowerCase() === "head");
+				faculty = teamArray.filter(member => member.category.toLowerCase() === "faculty");
+				student = teamArray.filter(member => member.category.toLowerCase() === "student");
+
+				return teamArray;
+			})
+			.catch(e => {
+				console.error("Error fetching team data:", e);
+				throw e;
+			});
+	});
+
 </script>
 
 <PageParent>
-	<div
-		class="min-h-screen text-black overflow-y-auto"
-		style="background-color: {data[3].complementaryColor};"
-	>
+	<div class="font-notable min-h-screen text-black overflow-y-auto"
+			 style="background-color: {data[3].complementaryColor};">
 		<header class="pt-10 pb-6 px-8">
 			<h1 class="font-notable font-bold text-5xl lg:text-8xl leading-none">
 				Team
 			</h1>
 			<p class="font-moda mt-3 text-lg">
-				Driven by passion. Built by collaboration.
+				Let’s collaborate and build something big together.
 			</p>
 		</header>
 
-		<!-- High Roles -->
-		<section class="px-8 lg:px-24 py-10">
-			<h2 class="font-notable text-3xl lg:text-5xl mb-6">Leadership</h2>
-
-			<div class="grid gap-10 md:grid-cols-2 place-items-center">
-				{#each high as p,i (i)}
-					<article class="rounded-3xl bg-white/70 backdrop-blur border border-black/10 shadow-lg p-5 w-full max-w-md text-center">
-						<img
-							src={p.img}
-							alt={p.name}
-							class="w-full h-72 object-cover rounded-2xl border border-black/10"
-						/>
-						<h3 class="font-notable text-3xl mt-4">{p.name}</h3>
-						<p class="font-moda opacity-80 text-lg">{p.role}</p>
-					</article>
-				{/each}
+		{#await teamDataPromise}
+			<div class=" w-full h-full p-5 text-center text-xl font-bold">
+				Loading team data...
 			</div>
-		</section>
+		{:then team}
+			{#if head && head.length > 0}
+				<h2 class="text-3xl font-bold p-5 w-full text-center">Administration</h2>
+				<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 font-moda p-5">
+					{#each head as member (member.name)}
+						{@render mainCard(member)}
+					{/each}
+				</div>
+			{/if}
 
-		<!-- Medium Level -->
-		<section class="px-8 lg:px-24 pb-10">
-			<h2 class="font-notable text-3xl lg:text-5xl mb-6">Core Team</h2>
+			{#if faculty && faculty.length > 0}
+				<h2 class="text-3xl font-bold p-5 mt-8 w-full text-center">Faculty & Conveners</h2>
+				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 font-moda p-5">
+					{#each faculty as member (member.name)}
+						{@render mainCard(member)}
+					{/each}
+				</div>
+			{/if}
 
-			<div class="grid gap-10 md:grid-cols-3 place-items-center">
-				{#each medium as m,i (i)}
-					<article class="rounded-2xl bg-white/60 backdrop-blur border border-black/10 shadow p-4 w-full max-w-sm text-center">
-						<img
-							src={m.img}
-							alt={m.name}
-							class="w-full h-56 object-cover rounded-xl border border-black/10"
-						/>
-						<h3 class="font-notable text-xl mt-3">{m.name}</h3>
-						<p class="font-moda opacity-80 text-sm">{m.role}</p>
-					</article>
-				{/each}
+			{#if student && student.length > 0}
+				<h2 class="text-3xl font-bold p-5 mt-8 w-full text-center">Student Coordinators & Members</h2>
+				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 font-moda p-5">
+					{#each student as member (member.name)}
+						{@render mainCard(member)}
+					{/each}
+				</div>
+			{/if}
+
+		{:catch e}
+			<div class="p-5 text-center text-xl text-red-600">
+				<p>An error occurred loading the team data:</p>
+				<p>{e.message}</p>
 			</div>
-		</section>
+		{/await}
 
-		<!-- Members -->
-		<section class="px-8 lg:px-24 pb-20">
-			<h2 class="font-notable text-3xl lg:text-5xl mb-6">Members</h2>
-
-			<div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 place-items-center">
-				{#each members as mem,i (i)}
-					<article class="rounded-xl bg-white/50 backdrop-blur border border-black/10 p-3 w-full text-center">
-						<img
-							src={mem.img}
-							alt={mem.name}
-							class="w-full h-40 object-cover rounded-lg border border-black/10"
-						/>
-						<p class="font-moda font-semibold mt-2 text-sm">{mem.name}</p>
-					</article>
-				{/each}
-			</div>
-		</section>
+		<div class="h-16"></div>
 	</div>
 </PageParent>
+
+
+{#snippet mainCard(member)}
+	<div class="w-full">
+		<div class="
+		relative rounded-lg shadow-lg flex flex-col items-center justify-end
+		p-6 overflow-hidden group
+		hover:shadow-2xl transition-all duration-300
+		max-w-[400px] mx-auto aspect-[3/4]
+		text-black
+	">
+
+			<!-- Background Image -->
+			<img
+				src={member.photo}
+				alt={member.name}
+				class="absolute inset-0 w-full h-full object-cover
+             transition-transform duration-300 group-hover:scale-110"
+			/>
+
+			<!-- Overlay for better readability -->
+			<div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-[-1]"></div>
+
+			<!-- Text Content -->
+			<div class="text-center  drop-shadow-md">
+				<h3 class="text-xl font-bold">{member.name}</h3>
+				<p class="text-sm text-gray-800">{member.category}</p>
+				{#if member.role}
+					<p class="text-xs text-gray-900 italic mt-1">{member.role}</p>
+				{/if}
+			</div>
+		</div>
+	</div>
+{/snippet}

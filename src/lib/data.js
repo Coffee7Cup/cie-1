@@ -18,9 +18,9 @@ export const data = [
 		}
 	},
 	{
-		name: ['Projects'],
+		name: ['Gallery'],
 		_3d_name: 'cd.glb',
-		route: '/projects',
+		route: '/gallery',
 		color: '#34D399',
 		complementaryColor: '#F7BAD1',
 		description: 'Innovation in action',

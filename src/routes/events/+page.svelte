@@ -1,31 +1,21 @@
 <script>
 	import { data } from '$lib/data.js';
 	import PageParent from '$lib/utils/PageParent.svelte';
+  import { resolve } from '$app/paths';
+  import { goto } from '$app/navigation';
 
-  const res = fetch("https://github.com/ciegprec/web-repo/main/events/data.json").then(res => {
-    let txt = res.body()
-    const json = JSON.parse(txt)
-    return json
-  })
 
-	// Temporary event list — update later with real events
-	const events = [
-		{
-			name: "Hackathon 2025",
-			desc: "24-hour build challenge to solve real industry problems.",
-			img: "https://placehold.co/600x400"
-		},
-		{
-			name: "Startup Showcase",
-			desc: "Pitch your startup idea to investors and industry leaders.",
-			img: "https://placehold.co/600x400"
-		},
-		{
-			name: "Tech Fireside",
-			desc: "Conversations with founders, product engineers & innovators.",
-			img: "https://placehold.co/600x400"
-		}
-	];
+	let events = null
+	let upcomming = null;
+
+  events = fetch("https://raw.githubusercontent.com/coffee7cup/ciewebrepo/main/events/events.json")
+		.then(res => res.json())
+		.then(res => {
+			upcomming = res.filter(item => item.upcoming === true);
+			return res.filter(item => item.upcoming === false);
+		})
+		.catch(e => console.log(e))
+
 </script>
 
 
@@ -54,11 +44,24 @@
 
 		<!-- Cards -->
 		<section class="px-8 lg:px-24 py-10">
-			<div class="grid gap-10 md:grid-cols-3">
+			<div class="flex flex-col">
 
-				{#each events as item,i (i)}
-          {@render card(item)}
-				{/each}
+				{#await events}
+					<div class=" w-full h-full p-5 text-center text-xl font-bold">
+						Loading team data...
+					</div>
+				{:then events}
+
+					{#if upcomming.length > 0}
+						{#each upcomming as event}
+							{@render eventCard(event)}
+						{/each}
+					{/if}
+
+					{#each events as event}
+						{@render eventCard(event)}
+					{/each}
+				{/await}
 
 			</div>
 		</section>
@@ -68,22 +71,73 @@
 
 </PageParent>
 
-{#snippet card(item)}
-  	<article class="rounded-2xl bg-white/60 backdrop-blur border border-black/10 shadow-md overflow-hidden hover:scale-[1.02] transition-transform duration-200">
-						<img
-							src={item.img}
-							alt={item.name}
-							class="w-full h-48 object-cover"
-							loading="lazy"
-						/>
-						<div class="p-5 space-y-2">
-							<h3 class="font-notable text-2xl lg:text-3xl">
-								{item.name}
-							</h3>
-							<p class="font-moda text-sm lg:text-base opacity-80 leading-relaxed">
-								{item.desc}
-							</p>
-						</div>
-					</article>
+{#snippet eventCard(item)}
+
+	<div class="w-full">
+
+		{#if item.upcoming}
+			<div class="w-full h-[2px] bg-red-700 mb-9"></div>
+			<div class="text-2xl font-notable font-bold text-red-500">Upcoming</div>
+		{/if}
+
+		<article
+			class="
+		w-full flex flex-col md:flex-row gap-6
+		bg-white/20 rounded-xl p-6 shadow-md
+		hover:shadow-xl transition-shadow duration-300
+		overflow-hidden
+		mb-10
+	 	lg:h-[400px]
+	"
+		>
+
+			<!-- Left Content -->
+			<div class="flex flex-col justify-between w-full md:w-1/2 font-moda">
+				<div>
+					<h3 class="text-3xl font-notable font-bold">{item.name}</h3>
+					<p class="text-base opacity-80 leading-relaxed">{item.description}</p>
+					<p class="text-sm opacity-60">{item.date}</p>
+					{#if item.html}
+						<p class="text-lg">
+							{@html item.html}
+						</p>
+					{/if}
+				</div>
+
+				<div>
+					{#if item.upcoming}
+						<a href={item.registrationLink} class="text-blue-600 underline text-lg pt-2 hover:opacity-80">
+							Register Here →
+						</a>
+					{:else}
+						<button
+							class="px-4 py-2 bg-black text-white rounded-lg text-sm mt-3
+							hover:scale-105 transition-transform"
+							onclick={() => goto(resolve(`/gallery/${item.name}`))}
+						>
+							View Gallery →
+						</button>
+					{/if}
+				</div>
+			</div>
+
+			<!-- Right Image -->
+			<div class="w-full md:w-1/2 h-48 md:h-auto overflow-hidden rounded-lg">
+				<img
+					src={item.coverImg}
+					alt={item.name}
+					class="w-full h-full object-cover
+					transition-transform duration-500
+					group-hover:scale-110"
+				/>
+			</div>
+
+		</article>
+
+		{#if item.upcoming}
+			<div class="w-full h-[2px] bg-red-700 mb-9"></div>
+		{/if}
+
+	</div>
 
 {/snippet}

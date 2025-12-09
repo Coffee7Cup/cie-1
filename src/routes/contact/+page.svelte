@@ -1,6 +1,7 @@
 <script>
 	import { data } from '$lib/data.js';
 	import PageParent from '$lib/utils/PageParent.svelte';
+	import { resolve } from '$app/paths';
 
 	// Placeholder for submission logic
 	let name = "";
@@ -36,7 +37,7 @@
 					<div class="text-3xl">📧</div>
 					<div>
 						<h3 class="font-notable text-xl">Email</h3>
-						<p class="font-moda text-sm opacity-80">cie@college.com</p>
+						<p class="font-moda text-sm opacity-80">cie@gprec.ac.in</p>
 					</div>
 				</div>
 
@@ -62,13 +63,17 @@
 				</div>
 
 				<!-- QR or Map -->
-				<div class="rounded-2xl bg-white/60 backdrop-blur border border-black/10 shadow overflow-hidden">
+				<a
+					class="rounded-2xl bg-white/60 backdrop-blur border border-black/10 shadow overflow-hidden cursor-pointer"
+					href="https://maps.app.goo.gl/8ZUkbVvQoH4YBdGU7"
+					target="_blank"
+				>
 					<img
-						src="https://placehold.co/600x350?text=QR+%2F+Map"
+						src={resolve('/assets/imgs/img.png')}
 						alt="QR or Map"
-						class="w-full h-auto"
+						class="w-full h-auto rounded-2xl"
 					/>
-				</div>
+				</a>
 
 			</div>
 

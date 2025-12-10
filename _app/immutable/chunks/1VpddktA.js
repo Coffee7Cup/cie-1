@@ -1,5 +1,0 @@
-import"./DsnmJJEf.js";import{aQ as d,t as f,b as l,i as m,p as v,f as u,a as x,aR as g,c as h,s as b,d as n,r as s,n as y}from"./DKuA-X_T.js";import{g as _}from"./DmLNhkhv.js";import{s as k,r as w}from"./BWZV9xqO.js";import"./D63_k5mX.js";import{p as j}from"./D7g6jeN0.js";var P=d('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>');function z(o,r){let i=j(r,"inline",8,!0);const e="width:1em;position:relative;top:0.15em;";var t=P();f(()=>k(t,i()?e:void 0)),l(o,t)}var A=u(`<button class="flex justify-center items-center
-		fixed right-4 bottom-4
-		px-3 p-2.5 backdrop-blur-sm bg-white/30 rounded-2xl text-xl z-10
-		transition ease-in-out duration-200
-		hover:scale-110"><span class="w-[20px] h-[20px] flex items-center justify-center"><!></span> Home</button> <div><!></div>`,1);function S(o,r){v(r,!0);var i=A(),e=x(i);e.__click=()=>{_(w(""))};var t=n(e),p=n(t);z(p,{inline:!1}),s(t),y(),s(e);var a=b(e,2),c=n(a);g(c,()=>r.children),s(a),l(o,i),h()}m(["click"]);export{S as P};

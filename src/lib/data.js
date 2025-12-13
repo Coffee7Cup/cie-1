@@ -18,9 +18,9 @@ export const data = [
 		}
 	},
 	{
-		name: ['Gallery'],
+		name: ['Achievements'],
 		_3d_name: 'cd.glb',
-		route: '/gallery',
+		route: '/achievements',
 		color: '#34D399',
 		complementaryColor: '#F7BAD1',
 		description: 'Innovation in action',
@@ -58,7 +58,7 @@ export const data = [
 		_3d_name: 'glasses.glb',
 		route: '/team',
 		color: '#60A5FA',
-		complementaryColor: '#E23A3A',
+		complementaryColor: '#EBD1BA',
 		description: 'Driven by passion',
 		description_fr: 'Team fueled by passion, collaboration, dedication, purpose and limitless growth.',
 		settings: {

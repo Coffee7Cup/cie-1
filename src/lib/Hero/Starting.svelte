@@ -3,6 +3,8 @@
 	import gsap from "gsap";
 	import SplitText from "gsap/SplitText";
 	import Attempt3 from '$lib/Hero/Attempt3.svelte';
+	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
 
 
 	onMount(() => {
@@ -56,7 +58,19 @@
  		z-[3] px-6
   	relative py-14 lg:py-26
 ">
-	<h1 class="text-4xl lg:text-[6.5rem] font-bold text-anim relative z-[3] font-notable" >
+
+	<button
+		class="
+			font-moda bg-black text-white font-lg lg:font-xl rounded-md
+			w-[150px] mt-4  p-2 lg:p-3
+			hover:scale-110 transition-all duration-200 cursor-pointer
+"
+		onclick={() => goto(resolve('/events'))}
+	>
+		See events
+	</button>
+
+	<h1 class="text-3xl lg:text-[6.5rem] font-bold text-anim relative z-[3] font-notable" >
 		CENTER FOR
 		<br />
 		INNOVATION AND

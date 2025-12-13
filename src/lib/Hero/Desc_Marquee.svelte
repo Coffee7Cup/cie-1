@@ -15,7 +15,7 @@
 		fixed z-[3]
 		left-4
 		top-7 lg:top-6
-		text-5xl lg:text-9xl
+		text-5xl lg:text-8xl
 		font-bold leading-snug
 		px-2 max-w-[700px]
 		font-notable

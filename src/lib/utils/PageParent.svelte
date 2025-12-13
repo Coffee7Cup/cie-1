@@ -20,15 +20,14 @@
 	Home
 </button>
 
-<div>
+<div class="page-scroll">
 	{@render children()}
 </div>
 <style>
-    :global(html, body) {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        overflow-y: scroll !important;
+    .page-scroll {
+        height: 100vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
     }
 </style>
 

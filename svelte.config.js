@@ -7,8 +7,11 @@ const config = {
 			adapter: adapter(),
 			paths: {
 				base: "/cie-1"
+			},
+			prerender: {
+				handleUnseenRoutes: "warn"
 			}
-    }
+    },
 };
 
 export default config;

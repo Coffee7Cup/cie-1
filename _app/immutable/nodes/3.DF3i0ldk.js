@@ -1,4 +1,4 @@
-import"../chunks/DsnmJJEf.js";import{i as s}from"../chunks/BDF5v0Oj.js";import{p as r,c as n,f as i,t as l,b as d}from"../chunks/CzPaAOyF.js";import{s as c,d as p}from"../chunks/BCFiBfNK.js";import{P as u}from"../chunks/BvA5Y4rT.js";var b=i(`<div class="min-h-screen text-black"><header class="pt-10 pb-6 px-8"><h1 class="
+import"../chunks/DsnmJJEf.js";import{i as s}from"../chunks/BDF5v0Oj.js";import{p as r,c as n,f as i,t as l,b as d}from"../chunks/CzPaAOyF.js";import{s as c,d as p}from"../chunks/BCFiBfNK.js";import{P as u}from"../chunks/BHGFA6mi.js";var b=i(`<div class="min-h-screen text-black"><header class="pt-10 pb-6 px-8"><h1 class="
 				font-notable font-bold
 				text-5xl lg:text-8xl
 			">About Us</h1></header> <section class="grid gap-12 lg:grid-cols-2 px-8 lg:px-24 py-12"><div class="space-y-4 bg-white/40 hover:scale-105 transition duration-200 ease-in-out p-10 rounded-3xl"><h2 class="font-notable text-4xl lg:text-6xl font-bold ">Mission</h2> <p class="font-moda text-lg lg:text-xl tracking-wide leading-relaxed max-w-prose">To build an ecosystem that supports innovative ideas,

@@ -1,13 +1,11 @@
 <script>
-
 	import Desc_Marquee from '$lib/Hero/Desc_Marquee.svelte';
 
 	let { currentIndex = $bindable(), scrollDirection } = $props();
-
-
 </script>
 
 <!-- BACKGROUND ELEMENTS (pointer interactions disabled) -->
+<!-- 
 <div
 	class="wavy-circle pointer-events-none
 	bg-gradient-to-r from-purple-400 via-pink-500 to-red-500
@@ -34,17 +32,7 @@
 		<Desc_Marquee {currentIndex} {scrollDirection}/>
 	{/key}
 {/if}
+-->
 
 <style>
-    @keyframes slow-spin {
-        from {
-            transform: rotate(0deg);
-        }
-        to {
-            transform: rotate(360deg);
-        }
-    }
-    .animate-slow-spin {
-        animation: slow-spin 20s linear infinite;
-    }
 </style>

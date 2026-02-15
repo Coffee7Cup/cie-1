@@ -98,11 +98,6 @@
 	});
 </script>
 
-<div
-	class="fixed w-full h-full overflow-hidden pointer-events-none"
-	style="background-color: {bgColor}; transition: background-color 1s ease;"
-></div>
-
 <MouseFollower bind:currentIndex={$heroIndex} />
 
 <Background bind:currentIndex={$heroIndex} {scrollDirection} />
@@ -113,11 +108,42 @@
 	<Starting />
 </div>
 
-<!--TODO: the formatting is the issue of pritter in the localproject not the nvim issue, try usinf --force -->
-
 {#each data as item, i (i)}
-	<div bind:this={sections[i + 1]} class="relative w-full h-full">
-		<Canvas name={item._3d_name} settings={item.settings} />
+	<div
+		bind:this={sections[i + 1]}
+		class="relative w-full h-full flex flex-col lg:flex-row items-center justify-center px-10 gap-10 {i %
+			2 !==
+		0
+			? 'lg:flex-row'
+			: 'lg:flex-row-reverse'}"
+	>
+		<!-- Text Content -->
+		<div
+			class="z-10 bg-(--bg-color)/50 backdrop-blur-sm p-6 rounded-2xl border border-(--border-color) max-w-md"
+		>
+			<h2 class="text-4xl lg:text-6xl font-bold mb-4 font- RUSSO-ONE text-(--text-color)">
+				{item.name[0]}
+			</h2>
+			<p class="text-xl lg:text-2xl text-(--secondary-text)">
+				{item.description}
+			</p>
+			{#if item.description_fr}
+				<p class="text-lg lg:text-xl text-(--secondary-text) mt-2 italic font-moda">
+					{item.description_fr}
+				</p>
+			{/if}
+		</div>
+
+		<!-- 3D Element Container with Radial Gradient -->
+		<div
+			class="relative w-full lg:w-1/2 h-[50vh] lg:h-full flex items-center justify-center overflow-visible"
+		>
+			<div
+				class="absolute w-full h-full rounded-full opacity-50 z-0 blur-3xl"
+				style="background: radial-gradient(circle, {item.color} 0%, transparent 70%);"
+			></div>
+			<Canvas name={item._3d_name} settings={item.settings} />
+		</div>
 	</div>
 {/each}
 

@@ -21,11 +21,11 @@
 
 <div
 	class="
-  absolute h-full w-[90vw]
-  bg-[linear-gradient(to_right,#80808055_1px,transparent_1px),linear-gradient(to_bottom,#80808055_1px,transparent_1px)]
-  bg-[size:54px_54px]
+  absolute h-full w-full
+  bg-[linear-gradient(to_right,var(--border-color)_1px,transparent_1px),linear-gradient(to_bottom,var(--border-color)_1px,transparent_1px)]
+  bg-size-[64px_64px]
   mask-[radial-gradient(circle,white_10%,transparent_60%)]
-  z-0
+  z-0 pointer-events-none opacity-50
 "
 ></div>
 
@@ -37,16 +37,18 @@
   top-[40vh] lg:top-0
   right-[50%] lg:right-0
   translate-x-1/2 lg:translate-x-0
-  z-[1] pointer-events-none
+  z-1 pointer-events-none overflow-visible
 "
 >
 	<div
 		class="
-	absolute w-full h-full
-	bg-yellow-300/80
+	absolute w-[120%] h-[120%]
+	bg-radial from-[#fbbf24] to-transparent
 	z-[-1]
+	-translate-x-1/10
 	-translate-y-1/4
-	mask-[radial-gradient(circle,white_10%,transparent_60%)]
+	opacity-40
+	blur-3xl
 "
 	></div>
 	<Attempt3 />
@@ -57,22 +59,24 @@
 		w-full h-full
  		inset-0 flex flex-col-reverse
  		justify-end lg:justify-start
- 		z-[3] px-6
+ 		z-3 px-6 lg:px-20
   	relative py-14 lg:py-26
 "
 >
 	<button
 		class="
-			font-moda bg-black text-white font-lg lg:font-xl rounded-md
+			font-moda bg-(--text-color) text-(--bg-color) font-lg lg:font-xl rounded-md
 			w-[150px] mt-4 p-2 lg:p-3
-			hover:scale-110 transition-all duration-200 cursor-pointer
+			hover:scale-105 transition-all duration-200 cursor-pointer
 "
 		onclick={() => goto(resolve('/events'))}
 	>
 		See events
 	</button>
 
-	<h1 class="text-3xl lg:text-[6.5rem] font-bold text-anim relative z-[3] font-notable">
+	<h1
+		class="text-3xl lg:text-[6rem] font-bold text-anim relative z-3 font- Russo-One text-(--text-color) leading-tight"
+	>
 		CENTER FOR
 		<br />
 		INNOVATION AND

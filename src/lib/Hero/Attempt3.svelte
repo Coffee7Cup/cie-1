@@ -57,7 +57,7 @@
 				if (object.geometry) object.geometry.dispose();
 				if (object.material) {
 					if (Array.isArray(object.material)) {
-						object.material.forEach(material => material.dispose());
+						object.material.forEach((material) => material.dispose());
 					} else {
 						object.material.dispose();
 					}
@@ -75,12 +75,7 @@
 		scene.fog = new THREE.Fog(0x000000, 0, 20);
 
 		// Camera
-		camera = new THREE.PerspectiveCamera(
-			75,
-			parent.clientWidth / parent.clientHeight,
-			0.1,
-			1000
-		);
+		camera = new THREE.PerspectiveCamera(75, parent.clientWidth / parent.clientHeight, 0.1, 1000);
 		camera.position.set(0, 0, 5);
 		camera.lookAt(0, 0, 0);
 
@@ -100,7 +95,7 @@
 		scene.add(ambientLight);
 
 		// Main glow light in the center
-		glowLight = new THREE.PointLight(0xffaa00, 100, 20);
+		glowLight = new THREE.PointLight(0xffff00, 150, 20);
 		glowLight.position.set(0, 0, 0);
 		scene.add(glowLight);
 

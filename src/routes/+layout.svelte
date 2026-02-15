@@ -2,6 +2,7 @@
 	import './layout.css';
 	import favicon from '$lib/assets/cie-logo.png';
 	import { onNavigate } from '$app/navigation';
+	import { theme } from '$lib/theme.js';
 
 	let { children } = $props();
 	let isBackNavigation = $state(false);

@@ -1,0 +1,1 @@
+import{w as a}from"./BFJF6Y-z.js";const t=a("light");if(typeof window<"u"){const e=localStorage.getItem("theme")||"light";t.set(e),t.subscribe(o=>{localStorage.setItem("theme",o),o==="dark"?document.documentElement.classList.add("dark"):document.documentElement.classList.remove("dark")})}function m(){t.update(e=>e==="light"?"dark":"light")}export{t as a,m as t};

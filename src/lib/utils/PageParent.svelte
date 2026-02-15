@@ -17,7 +17,7 @@
 		<span class="w-[20px] h-[20px] flex items-center justify-center">
 			<BackwardArrow inline={false}/>
 		</span>
-	Home
+	Back
 </button>
 
 <div class="page-scroll">
@@ -25,7 +25,7 @@
 </div>
 <style>
     .page-scroll {
-        height: 100vh;
+        height: 100dvh;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
     }

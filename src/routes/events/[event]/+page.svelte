@@ -2,6 +2,7 @@
 	import {data} from '$lib/data.js';
 	import {page} from '$app/state'
 	import { onMount } from 'svelte';
+	import PageParent from '$lib/utils/PageParent.svelte';
 
 	const  galleryName  = page.params.event;
 
@@ -14,24 +15,26 @@
 </script>
 
 
-<div class="w-full min-h-screen h-auto"
-		 style="background-color: {data[2].complementaryColor}"
->
-	<div>
-		<div class="text-4xl lg:text-8xl font-notable p-6 w-full pt-9">{galleryName}</div>
-		{#await json}
-			<div class=" w-full h-full p-5 text-center text-xl font-bold">
-				Loading team data...
-			</div>
-		{:then json}
-			<div class = "grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 p-8 gap-4">
-				{#each json as item,i (i)}
-					<div class="flex">
-						<img src={item} alt={galleryName} class="w-full h-full object-cover rounded-2xl hover:shadow-xl transition-all duration-200"/>
-					</div>
-				{/each}
-			</div>
-		{/await}
+<PageParent>
+	<div class="w-full min-h-screen h-auto"
+			 style="background-color: {data[2].complementaryColor}"
+	>
+		<div>
+			<div class="text-4xl lg:text-8xl font-notable p-6 w-full pt-9">{galleryName}</div>
+			{#await json}
+				<div class=" w-full h-full p-5 text-center text-xl font-bold">
+					Loading team data...
+				</div>
+			{:then json}
+				<div class = "grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 p-8 gap-4">
+					{#each json as item,i (i)}
+						<div class="flex">
+							<img src={item} alt={galleryName} class="w-full h-full object-cover rounded-2xl hover:shadow-xl transition-all duration-200"/>
+						</div>
+					{/each}
+				</div>
+			{/await}
+		</div>
 	</div>
-</div>
+</PageParent>
 

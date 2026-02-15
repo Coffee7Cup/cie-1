@@ -60,7 +60,8 @@ export const data = [
 		color: '#60A5FA',
 		complementaryColor: '#EBD1BA',
 		description: 'Driven by passion',
-		description_fr: 'Team fueled by passion, collaboration, dedication, purpose and limitless growth.',
+		description_fr:
+			'Team fueled by passion, collaboration, dedication, purpose and limitless growth.',
 		settings: {
 			rotateX: 0,
 			rotateY: 0,

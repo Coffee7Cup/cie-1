@@ -4,12 +4,12 @@
 	import { resolve } from '$app/paths';
 
 	// Placeholder for submission logic
-	let name = "";
-	let email = "";
-	let message = "";
+	let name = '';
+	let email = '';
+	let message = '';
 
 	function submitForm() {
-		alert("Message submitted! (Hook backend here)");
+		alert('Message submitted! (Hook backend here)');
 	}
 </script>
 
@@ -18,22 +18,18 @@
 		class="min-h-screen text-black overflow-y-auto"
 		style="background-color: {data[4].complementaryColor};"
 	>
-
 		<header class="pt-10 pb-6 px-8">
-			<h1 class="font-notable font-bold text-5xl lg:text-8xl leading-none">
-				Contact
-			</h1>
-			<p class="font-moda mt-3 text-lg">
-				Let’s collaborate and build something big together.
-			</p>
+			<h1 class="font-notable font-bold text-5xl lg:text-8xl leading-none">Contact</h1>
+			<p class="font-moda mt-3 text-lg">Let’s collaborate and build something big together.</p>
 		</header>
 
 		<section class="px-8 lg:px-24 py-10 grid gap-14 lg:grid-cols-2">
 			<!-- Left: Info Cards -->
 			<div class="space-y-6">
-
 				<!-- Email -->
-				<div class="rounded-2xl bg-white/60 backdrop-blur border border-black/10 shadow p-6 flex items-center gap-4">
+				<div
+					class="rounded-2xl bg-white/60 backdrop-blur border border-black/10 shadow p-6 flex items-center gap-4"
+				>
 					<div class="text-3xl">📧</div>
 					<div>
 						<h3 class="font-notable text-xl">Email</h3>
@@ -42,7 +38,9 @@
 				</div>
 
 				<!-- Phone -->
-				<div class="rounded-2xl bg-white/60 backdrop-blur border border-black/10 shadow p-6 flex items-center gap-4">
+				<div
+					class="rounded-2xl bg-white/60 backdrop-blur border border-black/10 shadow p-6 flex items-center gap-4"
+				>
 					<div class="text-3xl">📞</div>
 					<div>
 						<h3 class="font-notable text-xl">Phone</h3>
@@ -51,7 +49,9 @@
 				</div>
 
 				<!-- Address -->
-				<div class="rounded-2xl bg-white/60 backdrop-blur border border-black/10 shadow p-6 flex items-center gap-4">
+				<div
+					class="rounded-2xl bg-white/60 backdrop-blur border border-black/10 shadow p-6 flex items-center gap-4"
+				>
 					<div class="text-3xl">📍</div>
 					<div>
 						<h3 class="font-notable text-xl">Address</h3>
@@ -74,11 +74,12 @@
 						class="w-full h-auto rounded-2xl"
 					/>
 				</a>
-
 			</div>
 
 			<!-- Right: Contact Form -->
-			<div class="rounded-3xl bg-white/70 backdrop-blur border border-black/10 shadow-lg p-8 space-y-6">
+			<div
+				class="rounded-3xl bg-white/70 backdrop-blur border border-black/10 shadow-lg p-8 space-y-6"
+			>
 				<h2 class="font-notable text-3xl mb-2">Send us a message</h2>
 
 				<div class="space-y-5">
@@ -115,10 +116,8 @@
 					This form is a placeholder — integrate with backend or service later.
 				</p>
 			</div>
-
 		</section>
 
 		<div class="h-20"></div>
 	</div>
 </PageParent>
-

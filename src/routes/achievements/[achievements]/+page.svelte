@@ -2,6 +2,7 @@
 	import {data} from '$lib/data.js';
 	import {page} from '$app/state'
 	import { onMount } from 'svelte';
+	import PageParent from '$lib/utils/PageParent.svelte';
 
   const  achievementName  = page.params.achievements;
 
@@ -14,6 +15,8 @@
 	})
 </script>
 
+
+<PageParent>
 
 <div class="w-full min-h-screen h-auto"
 		 style="background-color: {data[1].complementaryColor}"
@@ -36,3 +39,4 @@
 	</div>
 </div>
 
+</PageParent>

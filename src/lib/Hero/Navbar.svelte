@@ -19,13 +19,6 @@
 	}
 </script>
 
-<style>
-    /* Makes taps respond immediately – important for mobile */
-    * {
-        touch-action: manipulation;
-    }
-</style>
-
 <nav
 	class="
 		px-5
@@ -112,3 +105,10 @@
 		</button>
 	</div>
 </nav>
+
+<style>
+	/* Makes taps respond immediately – important for mobile */
+	* {
+		touch-action: manipulation;
+	}
+</style>

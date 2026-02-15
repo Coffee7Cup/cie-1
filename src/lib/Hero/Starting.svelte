@@ -1,21 +1,20 @@
 <script>
-	import { onMount } from "svelte";
-	import gsap from "gsap";
-	import SplitText from "gsap/SplitText";
+	import { onMount } from 'svelte';
+	import gsap from 'gsap';
+	import SplitText from 'gsap/SplitText';
 	import Attempt3 from '$lib/Hero/Attempt3.svelte';
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
 
-
 	onMount(() => {
-		let split = new SplitText(".text-anim", { type: "chars, words" });
+		let split = new SplitText('.text-anim', { type: 'chars, words' });
 
 		gsap.from(split.chars, {
 			y: 30,
 			opacity: 0,
 			stagger: 0.05,
 			duration: 0.4,
-			ease: "power3.out"
+			ease: 'power3.out'
 		});
 	});
 </script>
@@ -30,7 +29,8 @@
 "
 ></div>
 
-<div class="
+<div
+	class="
   absolute
   h-[50vh] lg:h-[85%]
   w-full lg:w-[50%]
@@ -38,8 +38,10 @@
   right-[50%] lg:right-0
   translate-x-1/2 lg:translate-x-0
   z-[1] pointer-events-none
-">
-	<div class="
+"
+>
+	<div
+		class="
 	absolute w-full h-full
 	bg-yellow-300/80
 	z-[-1]
@@ -47,22 +49,22 @@
 	mask-[radial-gradient(circle,white_10%,transparent_60%)]
 "
 	></div>
-	<Attempt3/>
+	<Attempt3 />
 </div>
 
-
-<div class="
+<div
+	class="
 		w-full h-full
  		inset-0 flex flex-col-reverse
  		justify-end lg:justify-start
  		z-[3] px-6
   	relative py-14 lg:py-26
-">
-
+"
+>
 	<button
 		class="
 			font-moda bg-black text-white font-lg lg:font-xl rounded-md
-			w-[150px] mt-4  p-2 lg:p-3
+			w-[150px] mt-4 p-2 lg:p-3
 			hover:scale-110 transition-all duration-200 cursor-pointer
 "
 		onclick={() => goto(resolve('/events'))}
@@ -70,13 +72,11 @@
 		See events
 	</button>
 
-	<h1 class="text-3xl lg:text-[6.5rem] font-bold text-anim relative z-[3] font-notable" >
+	<h1 class="text-3xl lg:text-[6.5rem] font-bold text-anim relative z-[3] font-notable">
 		CENTER FOR
 		<br />
 		INNOVATION AND
-		<br/>
+		<br />
 		ENTREPRENEURSHIP
 	</h1>
 </div>
-
-

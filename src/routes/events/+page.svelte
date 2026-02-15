@@ -5,20 +5,53 @@
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 
-	let events = null;
+	// let events = null;
 	let upcomming = [];
 
-	onMount(() => {
-		events = fetch(
-			"https://raw.githubusercontent.com/coffee7cup/ciewebrepo/main/events/events.json"
-		)
-			.then((res) => res.json())
-			.then((res) => {
-				upcomming = res.filter((item) => item.upcoming === true);
-				return res.filter((item) => item.upcoming === false);
-			})
-			.catch((e) => console.log(e));
-	});
+	let events = [
+		{
+			name: 'Kreative',
+			file: 'Kreative',
+			coverImg: 'https://drive.google.com/uc?id=1ZF0Zp-w-hli21Mqgo1Q_yPi0c2V5YS92',
+			description:
+				'Kreative is the central annual festival for innovation and cultural showcase, bringing together students from various disciplines for competitions, workshops, and inter-departmental events.',
+			date: '',
+			upcoming: false,
+			registrationLink: null
+		},
+		{
+			name: 'Innov8',
+			file: 'Innov8',
+			coverImg: 'https://drive.google.com/uc?id=18G7ZQLkjI3qYczJagqg-HJWIUwNFeNva',
+			description:
+				'A central technical competition or theme promoting innovation, often including hackathons and project showcases where participants build real-world solutions.',
+			date: 'TBD',
+			upcoming: false,
+			registrationLink: null
+		},
+		{
+			name: 'Hola Amigos',
+			file: 'HolaAmigos',
+			coverImg: 'https://drive.google.com/uc?id=1Fm10PbpjNvhoRSp4y4g4OiOhABKUNdwm',
+			description:
+				'A social, fun, and casual event designed for students to interact, participate in games, enjoy music, and promote a relaxed, friendly atmosphere among peers.',
+			date: 'TBD',
+			upcoming: false,
+			registrationLink: null
+		}
+	];
+
+	// onMount(() => {
+	// 	events = fetch(
+	// 		"https://raw.githubusercontent.com/coffee7cup/ciewebrepo/main/events/events.json"
+	// 	)
+	// 		.then((res) => res.json())
+	// 		.then((res) => {
+	// 			upcomming = res.filter((item) => item.upcoming === true);
+	// 			return res.filter((item) => item.upcoming === false);
+	// 		})
+	// 		.catch((e) => console.log(e));
+	// });
 </script>
 
 <PageParent>
@@ -36,11 +69,8 @@
 		<section class="px-8 lg:px-24 py-10">
 			<div class="flex flex-col">
 				{#await events}
-					<div class="w-full p-5 text-center text-xl font-bold">
-						Loading event data...
-					</div>
+					<div class="w-full p-5 text-center text-xl font-bold">Loading event data...</div>
 				{:then eventsData}
-
 					<!-- Upcoming First -->
 					{#if upcomming.length > 0}
 						{#each upcomming as event}
@@ -52,7 +82,6 @@
 					{#each eventsData as event}
 						{@render eventCard(event)}
 					{/each}
-
 				{/await}
 			</div>
 		</section>
@@ -62,9 +91,7 @@
 </PageParent>
 
 {#snippet eventCard(item)}
-
 	<div class="w-full">
-
 		{#if item.upcoming}
 			<div class="w-full h-[2px] bg-red-700 mb-9"></div>
 			<div class="text-2xl font-notable font-bold text-red-500">Upcoming</div>
@@ -107,8 +134,9 @@
 						<button
 							class="px-4 py-2 bg-black text-white rounded-lg text-sm
 							hover:scale-105 transition-transform"
-							onclick={() => goto(resolve(`/events/${item.slug || item.name}`))}
+							onclick={() => goto(resolve(`/events/${item.name.replaceAll(/\s+/g, '')}`))}
 						>
+							<!-- TODO: -> i think i need to provide  url for CamalCase -->
 							View Gallery →
 						</button>
 					{/if}
@@ -123,13 +151,10 @@
 					class="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
 				/>
 			</div>
-
 		</article>
 
 		{#if item.upcoming}
 			<div class="w-full h-[2px] bg-red-700 mb-9"></div>
 		{/if}
-
 	</div>
-
 {/snippet}

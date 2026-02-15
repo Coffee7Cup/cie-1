@@ -22,9 +22,9 @@
 
 		let newIndex = $heroIndex;
 
-		if (direction === "down" && $heroIndex < sections.length - 1) {
+		if (direction === 'down' && $heroIndex < sections.length - 1) {
 			newIndex = $heroIndex + 1;
-		} else if (direction === "up" && $heroIndex > 0) {
+		} else if (direction === 'up' && $heroIndex > 0) {
 			newIndex = $heroIndex - 1;
 		}
 
@@ -48,20 +48,18 @@
 		scrollAccumulator += e.deltaY;
 
 		if (scrollAccumulator >= SCROLL_THRESHOLD) {
-			updateIndexAndScroll("down");
-		}
-		else if (scrollAccumulator <= -SCROLL_THRESHOLD) {
-			updateIndexAndScroll("up");
+			updateIndexAndScroll('down');
+		} else if (scrollAccumulator <= -SCROLL_THRESHOLD) {
+			updateIndexAndScroll('up');
 		}
 
-		if ((scrollAccumulator > 0 && e.deltaY < 0) ||
-			(scrollAccumulator < 0 && e.deltaY > 0)) {
+		if ((scrollAccumulator > 0 && e.deltaY < 0) || (scrollAccumulator < 0 && e.deltaY > 0)) {
 			scrollAccumulator = e.deltaY;
 		}
 	}
 
 	function onSwipeStart(e) {
-		if(e.touches.length === 1) {
+		if (e.touches.length === 1) {
 			swipeStartCoord = e.touches[0].clientY;
 		}
 	}
@@ -73,9 +71,9 @@
 		let diff = swipeStartCoord - endCoord;
 
 		if (diff > 50) {
-			updateIndexAndScroll("down");
+			updateIndexAndScroll('down');
 		} else if (diff < -50) {
-			updateIndexAndScroll("up");
+			updateIndexAndScroll('up');
 		}
 
 		swipeStartCoord = null;
@@ -103,18 +101,19 @@
 <div
 	class="fixed w-full h-full overflow-hidden pointer-events-none"
 	style="background-color: {bgColor}; transition: background-color 1s ease;"
->
-</div>
+></div>
 
 <MouseFollower bind:currentIndex={$heroIndex} />
 
 <Background bind:currentIndex={$heroIndex} {scrollDirection} />
 
-<Navbar bind:currentIndex={$heroIndex}/>
+<Navbar bind:currentIndex={$heroIndex} />
 
 <div bind:this={sections[0]} class="relative w-full h-full">
 	<Starting />
 </div>
+
+<!--TODO: the formatting is the issue of pritter in the localproject not the nvim issue, try usinf --force -->
 
 {#each data as item, i (i)}
 	<div bind:this={sections[i + 1]} class="relative w-full h-full">
@@ -123,11 +122,11 @@
 {/each}
 
 <style>
-    :global(html, body) {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        overflow: hidden; /* i dont know y this is important...without this the scroll behaviour (home screen - snapping) is not working*/
+	:global(html, body) {
+		height: 100%;
+		margin: 0;
+		padding: 0;
+		overflow: hidden; /* i dont know y this is important...without this the scroll behaviour (home screen - snapping) is not working*/
 		/*		i guess there is no way around this... the gemini says that overflow : hidden prevent the default browser behavior, and that what i want*/
-    }
+	}
 </style>

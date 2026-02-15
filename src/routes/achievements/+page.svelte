@@ -5,22 +5,23 @@
 	import { resolve } from '$app/paths';
 	import { onMount } from 'svelte';
 
-	let achievementsPromise
+	let achievementsPromise;
 
 	onMount(() => {
-		achievementsPromise = fetch("https://raw.githubusercontent.com/coffee7cup/ciewebrepo/main/achievements/achievements.json")
-			.then(res => {
+		achievementsPromise = fetch(
+			'https://raw.githubusercontent.com/coffee7cup/ciewebrepo/main/achievements/achievements.json'
+		)
+			.then((res) => {
 				if (!res.ok) {
 					throw new Error(`HTTP error! status: ${res.status}`);
 				}
 				return res.json();
 			})
-			.catch(error => {
-				console.error("Failed to fetch events:", error);
+			.catch((error) => {
+				console.error('Failed to fetch events:', error);
 				return [];
 			});
-	})
-
+	});
 </script>
 
 <PageParent>
@@ -38,9 +39,7 @@
 			>
 				Achievements
 			</h1>
-			<p class="font-moda mt-3 text-lg">
-				Innovation in action — ideas that become reality.
-			</p>
+			<p class="font-moda mt-3 text-lg">Innovation in action — ideas that become reality.</p>
 		</header>
 
 		<section class="px-8 lg:px-24 py-10">
@@ -50,15 +49,16 @@
 				{:then achievements}
 					{#each achievements as achievement}
 						<button
-						class="
+							class="
    						relative rounded-lg shadow-lg flex flex-col items-center justify-end
 						  p-6 overflow-hidden group
     					hover:shadow-2xl transition-all duration-300
     					bg-transparent
     					h-[400px]
 						"
-								 aria-label="button"
-								 onclick={() => goto(resolve(`/achievements/${achievement.name}`))}
+							aria-label="button"
+							onclick={() =>
+								goto(resolve(`/achievements/${achievement.name.replaceAll(/\s+/g, '')}`))}
 						>
 							<img
 								src={achievement.coverImg}
@@ -66,14 +66,17 @@
 								class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
 							/>
 
-							<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-[-1]"></div>
+							<div
+								class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-[-1]"
+							></div>
 
 							<h3 class="text-xl font-bold text-white drop-shadow-md">
 								{achievement.name || 'Event Title'}
 							</h3>
 							<p class="mt-1 text-sm text-gray-200 drop-shadow-sm">
 								{achievement.date || 'Date N/A'}
-							</p><p class="mt-1 text-sm text-gray-200 drop-shadow-sm">
+							</p>
+							<p class="mt-1 text-sm text-gray-200 drop-shadow-sm">
 								{achievement.description || 'Date N/A'}
 							</p>
 						</button>

@@ -42,12 +42,11 @@
 >
 	<div
 		class="
-	absolute w-[120%] h-[120%]
-	bg-radial from-[#fbbf24] to-transparent
+	absolute w-[90%] h-[90%]
+	bg-radial from-[#ffc941] to-transparent
 	z-[-1]
-	-translate-x-1/10
 	-translate-y-1/4
-	opacity-40
+	opacity-80
 	blur-3xl
 "
 	></div>

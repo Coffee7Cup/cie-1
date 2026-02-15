@@ -90,7 +90,7 @@
 						>
 							Student Coordinators
 						</h2>
-						<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+						<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
 							{#each student as member (member.name)}
 								{@render mainCard(member)}
 							{/each}
@@ -113,31 +113,36 @@
 	<div class="w-full">
 		<div
 			class="
-				relative rounded-2xl shadow-sm flex flex-col items-center justify-end
-				p-6 overflow-hidden group h-[450px]
+				relative rounded-2xl shadow-sm flex flex-col items-center justify-between
+				p-8 overflow-hidden group h-[450px]
 				bg-(--bg-color) border border-(--border-color)
 				transition-all duration-300 hover:shadow-xl hover:scale-[1.02] cursor-pointer
 			"
 		>
-			<!-- Background Image -->
-			<img
-				src={member.photo}
-				alt={member.name}
-				class="absolute inset-0 w-full h-full object-cover grayscale-30 group-hover:grayscale-0
-              transition-all duration-500 group-hover:scale-105"
-			/>
-
-			<!-- Overlay -->
+			<!-- Member Image -->
 			<div
-				class="absolute inset-0 bg-linear-to-t from-black/90 via-black/30 to-transparent z-10 transition-opacity duration-300"
-			></div>
+				class="relative z-10 mt-6 w-52 h-52 rounded-2xl overflow-hidden border-2 border-(--border-color) shadow-lg bg-(--border-color)/10"
+			>
+				<img
+					src={member.photo}
+					alt={member.name}
+					class="w-full h-full object-cover grayscale-30 group-hover:grayscale-0
+                  transition-all duration-500 group-hover:scale-110"
+				/>
+			</div>
 
 			<!-- Text Content -->
-			<div class="relative z-20 w-full text-left">
-				<h3 class="text-xl font-bold text-white mb-1 leading-tight">{member.name}</h3>
-				<p class="text-sm text-white/80 font-medium mb-1">{member.category}</p>
+			<div class="relative z-20 w-full text-center mb-6">
+				<h3 class="text-2xl font-bold text-(--text-color) mb-2 leading-tight">{member.name}</h3>
+				<p class="text-sm text-(--secondary-text) font-semibold uppercase tracking-wider mb-2">
+					{member.category}
+				</p>
 				{#if member.role}
-					<p class="text-xs text-white/60 italic font-medium">{member.role}</p>
+					<div
+						class="inline-block px-3 py-1 rounded-full bg-(--accent-color)/10 border border-(--accent-color)/20"
+					>
+						<p class="text-xs text-(--accent-color) italic font-medium">{member.role}</p>
+					</div>
 				{/if}
 			</div>
 		</div>

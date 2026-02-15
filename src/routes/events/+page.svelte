@@ -6,7 +6,6 @@
 	import { onMount } from 'svelte';
 
 	// let events = null;
-	let upcomming = [];
 
 	let events = [
 		{
@@ -26,8 +25,9 @@
 			description:
 				'A central technical competition or theme promoting innovation, often including hackathons and project showcases where participants build real-world solutions.',
 			date: 'TBD',
-			upcoming: false,
-			registrationLink: null
+			upcoming: true,
+			registrationLink: null,
+			html: "<p style='background-color: red;'>Hello im yash<p>"
 		},
 		{
 			name: 'Hola Amigos',
@@ -78,14 +78,14 @@
 					</div>
 				{:then eventsData}
 					<!-- Upcoming First -->
-					{#if upcomming.length > 0}
-						{#each upcomming as event}
+					{#if eventsData.filter((item) => item.upcoming).length > 0}
+						{#each eventsData.filter((item) => item.upcoming) as event}
 							{@render eventCard(event)}
 						{/each}
 					{/if}
 
 					<!-- Past Events -->
-					{#each eventsData as event}
+					{#each eventsData.filter((item) => !item.upcoming) as event}
 						{@render eventCard(event)}
 					{/each}
 				{/await}
@@ -187,7 +187,7 @@
 				<img
 					src={item.coverImg}
 					alt={item.name}
-					class="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+					class="w-full h-full object-cover"
 				/>
 			</div>
 		</article>

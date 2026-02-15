@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import * as THREE from 'three';
 	import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-	import {base} from '$app/paths'
+	import { base } from '$app/paths';
 
 	let { settings, name, position = { x: 0, y: 0, z: 0 } } = $props();
 
@@ -12,7 +12,7 @@
 	let spinSpeed = 0;
 	let isVisible = false;
 	let isMobile = false;
-	let animationFrameId = null
+	let animationFrameId = null;
 	let animationState = 'idle'; // Using a state variable is cleaner for entrance logic
 
 	onMount(() => {
@@ -54,8 +54,8 @@
 
 		const loader = new GLTFLoader();
 
-		// Adjust scale based on screen size
-		const responsiveScale = isMobile ? settings.scale * 0.7 : settings.scale;
+		// Adjust scale based on screen size: 1.5x bigger than desktop scale on mobile
+		const responsiveScale = isMobile ? settings.scale * 1.5 : settings.scale;
 
 		loader.load(
 			`${base}/assets/${name}`,
@@ -77,7 +77,7 @@
 						if (settings.color) m.color = new THREE.Color(settings.color);
 						m.needsUpdate = true;
 					}
-				})
+				});
 
 				if (parent && parent.getBoundingClientRect().height > 0) {
 					animate();
@@ -106,7 +106,7 @@
 			if (wasMobile !== isMobile) {
 				camera.fov = isMobile ? 85 : 75;
 				if (isMobile) {
-					camera.position.set(5, 2.5, 4);
+					camera.position.set(5, 2.5, 3);
 				} else {
 					camera.position.set(4, 2, 3);
 				}
@@ -114,7 +114,6 @@
 			}
 		};
 		new ResizeObserver(resize).observe(parent);
-
 
 		// Physics tuned for smooth animation
 		const initialAngVel = Math.PI * 3;
@@ -156,7 +155,8 @@
 
 					// Scaling (Cubic Ease)
 					const progress = 1 - Math.max(0, rotationLeft / totalRotation);
-					const eased = progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+					const eased =
+						progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
 
 					const minScale = currentScale / 3;
 					const scale = minScale + eased * (currentScale - minScale);
@@ -190,7 +190,7 @@
 						}
 
 						// START ENTRANCE ANIMATION LOGIC
-						if(animationState === 'idle') {
+						if (animationState === 'idle') {
 							isVisible = true;
 							animationState = 'entering';
 							rotating = true;
@@ -202,13 +202,12 @@
 							const initialScale = currentScale / 3;
 							model.scale.set(initialScale, initialScale, initialScale); // Ensure small scale start
 							model.position.set(position.x, position.y, position.z);
-							console.log("helllo there")
+							console.log('helllo there');
 						}
-					}
-					else{
+					} else {
 						// STOP ANIMATION LOOP WHEN OFF-SCREEN
-						console.log("helllo there else")
-						stopAnimation()
+						console.log('helllo there else');
+						stopAnimation();
 					}
 				});
 			},
@@ -222,12 +221,12 @@
 		// Cleanup
 		return () => {
 			intersectionObserver.disconnect();
-			stopAnimation() // Stop the loop when component is destroyed
+			stopAnimation(); // Stop the loop when component is destroyed
 			renderer.dispose();
 		};
 	});
 </script>
 
-<div bind:this={parent} class="w-full h-full relative pointer-events-none z-2 ">
-	<canvas bind:this={canvas} class="absolute w-full h-full "></canvas>
+<div bind:this={parent} class="w-full h-full relative pointer-events-none z-2">
+	<canvas bind:this={canvas} class="absolute w-full h-full"></canvas>
 </div>

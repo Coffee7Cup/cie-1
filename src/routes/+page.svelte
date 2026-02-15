@@ -119,17 +119,17 @@
 	>
 		<!-- Text Content -->
 		<div
-			class="z-10 bg-(--bg-color)/50 backdrop-blur-sm p-6 rounded-2xl border border-(--border-color) max-w-md"
+			class="z-10 bg-transparent p-6 rounded-2xl border border-(--border-color) lg:w-[40%] w-full overflow-scroll"
 		>
-			<h2 class="text-4xl lg:text-6xl font-bold mb-4 font- RUSSO-ONE text-(--text-color)">
+			<h2 class="text-4xl lg:text-6xl font-bold mb-4 font-RUSSO-ONE text-(--text-color)">
 				{item.name[0]}
 			</h2>
 			<p class="text-xl lg:text-2xl text-(--secondary-text)">
 				{item.description}
 			</p>
-			{#if item.description_fr}
+			{#if item.description_long}
 				<p class="text-lg lg:text-xl text-(--secondary-text) mt-2 italic font-moda">
-					{item.description_fr}
+					{item.description_long}
 				</p>
 			{/if}
 		</div>

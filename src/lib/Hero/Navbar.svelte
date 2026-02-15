@@ -1,7 +1,6 @@
 <script>
 	import { data } from '$lib/data.js';
-	import Menu from '@svelte-parts/icons/feather/menu/Menu.svelte';
-	import Cross from '@svelte-parts/icons/feather/x';
+	import { Menu, X as Cross, Sun, Moon } from 'lucide-svelte';
 	import { theme, toggleTheme } from '$lib/theme.js';
 
 	let { currentIndex = $bindable() } = $props();
@@ -23,7 +22,7 @@
 <nav
 	class="
 		px-5
-		border border-black
+		border border-(--border-color)
 		fixed left-1/2 -translate-x-1/2
 		bottom-[calc(env(safe-area-inset-bottom)+1rem)]
 		flex flex-col gap-2 items-center justify-center
@@ -100,47 +99,9 @@
 				aria-label="Toggle dark mode"
 			>
 				{#if $theme === 'light'}
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						width="20"
-						height="20"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg
-					>
+					<Moon size={20} />
 				{:else}
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						width="20"
-						height="20"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line
-							x1="12"
-							y1="21"
-							x2="12"
-							y2="23"
-						></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line
-							x1="18.36"
-							y1="18.36"
-							x2="19.78"
-							y2="19.78"
-						></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"
-						></line><line x1="4.22" y1="18.36" x2="5.64" y2="19.78"></line><line
-							x1="18.36"
-							y1="4.22"
-							x2="19.78"
-							y2="5.64"
-						></line></svg
-					>
+					<Sun size={20} />
 				{/if}
 			</button>
 
@@ -155,9 +116,9 @@
 				"
 			>
 				{#if menuOpen}
-					<Cross inline={false} class="w-6 h-6" />
+					<Cross size={24} />
 				{:else}
-					<Menu inline={false} class="w-6 h-6" />
+					<Menu size={24} />
 				{/if}
 			</button>
 		</div>

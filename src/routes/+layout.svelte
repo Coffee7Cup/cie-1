@@ -3,6 +3,8 @@
 	import favicon from '$lib/assets/cie-logo.png';
 	import { onNavigate } from '$app/navigation';
 	import { theme } from '$lib/theme.js';
+	import LoadingScreen from '$lib/components/LoadingScreen.svelte';
+	import ProgressBar from '$lib/components/ProgressBar.svelte';
 
 	let { children } = $props();
 	let isBackNavigation = $state(false);
@@ -39,6 +41,8 @@
 <svelte:head>
 	<link rel="icon" href={favicon} />
 </svelte:head>
+<LoadingScreen />
+<ProgressBar />
 
 <div
 	class="fixed top-5 right-3 lg:top-8 lg:right-6
